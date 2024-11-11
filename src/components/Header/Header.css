@@ -1,0 +1,13 @@
+.header{
+    padding:15px;
+    position:sticky;
+    top:0;
+    height: 60px;
+    z-index:2;
+    color:white;
+    //background: yellow;
+    .search{
+        width:700px;
+        margin-right:50px;
+    }
+}

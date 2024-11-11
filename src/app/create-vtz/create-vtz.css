@@ -1,0 +1,18 @@
+.title{
+    font-size:32px;
+    font-family: Arial, serif;
+    font-weight:600;
+    line-height:39px;
+}
+
+.text{
+    font-size:20px;
+    font-weight:500;
+    font-family: Arial, serif;
+    display:flex;
+    align-items: center;
+}
+
+.input-text{
+    max-width:300px;
+}

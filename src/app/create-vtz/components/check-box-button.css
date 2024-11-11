@@ -1,0 +1,17 @@
+.check-box-button{
+    min-width:40px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size:14px;
+    font-weight:400;
+    font-family: Arial, serif;
+    background:#E8E8E8;
+    color:black;
+    cursor:pointer;
+    user-select: none;
+}
+
+.active{
+    background:#025EA1;
+    color:white;
+}
