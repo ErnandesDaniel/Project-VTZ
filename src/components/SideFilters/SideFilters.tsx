@@ -16,6 +16,7 @@ export default function SideFilters() {
         {text:'Личный кабинет', href:''},
         {text:'История изменений', href:''},
         {text:'Удаленные задания', href:''},
+        {text:'Документация', href:''},
     ]
 
     const institutesFilters=[
