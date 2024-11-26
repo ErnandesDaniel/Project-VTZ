@@ -6,5 +6,54 @@
         width:100%;
         padding-right:30px;
     }
+    /* Стили для шапки таблиц documentation-table и vtz-table */
+    .documentation-table .ant-table-thead > tr > th,
+    .vtz-table .ant-table-thead > tr > th {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19.5px;
+        text-align: center; /* Центрирование текста в заголовках */
+        vertical-align: middle; /* Выравнивание текста по вертикали */
+        padding: 10px; /* Отступы для улучшения читаемости */
+        background-color: #F1F5F9;
+        border: 1px solid #CBD5E1;
+    }
+
+    /* Общие стили для всех ячеек documentation-table*/
+    .documentation-table .ant-table-tbody > tr > td ,
+    .vtz-table .ant-table-tbody > tr > td {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        line-height: 17.07px;
+        text-align: center; /* Центрирование по умолчанию */
+        word-wrap: break-word;
+        white-space: normal;
+        border: 1px solid #CBD5E1;
+
+    }
+
+    /* Конкретные стили для третьего столбца (Наименование) documentation-table*/
+    .documentation-table .ant-table-tbody > tr > td:nth-child(3) ,
+    .vtz-table .ant-table-tbody > tr > td:nth-child(2), td:nth-child(3), td:nth-child(4)  {
+        text-align: left !important; /* Принудительное выравнивание текста по левому краю */
+        word-wrap: break-word; /* Перенос длинных слов */
+        white-space: normal; /* Разрешаем перенос строк */
+        overflow: visible; /* Убираем обрезку текста */
+    }
+
+    /* Границы строк */
+    .documentation-table .ant-table-tbody > tr,
+    .vtz-table .ant-table-tbody > tr {
+        border-bottom: 1px solid #CBD5E1; /* Граница между строками */
+    }
+
+    /* Добавление тени под таблицами */
+    .documentation-table-wrapper, .vtz-table-wrapper {
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Тень: горизонтальная, вертикальная, размытие, прозрачность */
+        margin-bottom: 20px; /* Отступ снизу, чтобы тень была видна */
+    }
 
 }
+
+

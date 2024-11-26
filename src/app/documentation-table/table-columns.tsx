@@ -4,22 +4,28 @@ export const columns = [
 
     {
         title: '№',
-        dataIndex: 'VTZ_number',
+        dataIndex: 'Number',
+
     },
 
     {
         title: 'Тип документации',
-        dataIndex: 'Stage', },
+        dataIndex: 'Stage',
+
+    },
+
 
     {
         title: 'Наименование',
-        dataIndex: 'name',
+        dataIndex: 'Name',
+
 
            },
 
     {
         title: 'Удалено',
         dataIndex: 'deleted',
+
         render: (_: any, record) =>
             ( <Flex justify='center'>
             <Checkbox checked={false} />
@@ -31,6 +37,7 @@ export const columns = [
     {
         title: 'Редактировать',
         dataIndex: 'edit',
+
         render: (_: any, record) =>
             ( <Flex justify='center'>
                 <EditOutlined style={{cursor:'pointer', fontSize:'22px'}} />
@@ -41,6 +48,7 @@ export const columns = [
     {
         title: 'Удалить',
         dataIndex: 'delete',
+
         render: (_: any, record) =>(
             <Flex justify='center'>
             <DeleteOutlined style={{cursor:'pointer', fontSize:'22px'}} />

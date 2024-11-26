@@ -15,21 +15,21 @@ export const columns = [
         title: 'Проектные институты',
         dataIndex: 'project_institutes',
         render: (institutes: any, record) => {
-            return <Flex justify='center'>
+            return <Flex justify='left'>
                 {institutes.map((institute, index)=> {
 
-                    let color='orange'
+                    let color='#F3B937'
 
                    if(institute=='СТО'){
 
-                       color='purple';
+                       color='#C47AA4';
 
                    }else if(institute=='НПИ'){
 
-                       color='green';
+                       color='#4DBFB1';
                    }else if(institute=='МПИ'){
 
-                       color='red';
+                       color='#F7874F';
 
                    }
 

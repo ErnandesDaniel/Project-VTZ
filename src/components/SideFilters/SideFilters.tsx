@@ -12,11 +12,13 @@ export default function SideFilters() {
 
     const pagesLinks=[
         {text:'Схема ВТЗ', href:''},
+        {text:'Задания', href:''},
         {text:'Задания без связей', href:''},
-        {text:'Личный кабинет', href:''},
-        {text:'История изменений', href:''},
         {text:'Удаленные задания', href:''},
         {text:'Документация', href:''},
+        {text:'Личный кабинет', href:''},
+        {text:'История изменений', href:''},
+
     ]
 
     const institutesFilters=[
@@ -83,15 +85,17 @@ export default function SideFilters() {
                 </div>)}
             </div>
 
-            <Spacer space={10}/>
+            <Spacer space={25}/>
 
             <div className="filters_title">Фильтры</div>
+
+            <Spacer space={20}/>
 
             <ChoiceOrAnd title='Проектный институт'/>
 
             {institutesFilters.map(({text}) => <Checkbox key={text}>{text}</Checkbox>)}
 
-            <Spacer space={10}/>
+            <Spacer space={20}/>
 
             <ChoiceOrAnd title='Документация'/>
 

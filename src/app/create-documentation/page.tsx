@@ -2,20 +2,20 @@
 import Spacer from "@/components/Universal/Spacer/Spacer";
 import Page from "@/components/Page/Page";
 import Text from "@/components/Universal/Text/Text";
-import './create-vtz.css';
+import './create-documentation.css';
 import { Input, Flex } from 'antd';
 const { Search } = Input;
 import { Checkbox } from "antd";
 import Button from "@/components/Universal/Button/Button";
-import CheckBoxButton from "@/app/create-vtz/components/check-box-button";
+import CheckBoxButton from "@/app/create-documentation/components/check-box-button";
 
 export default function create_VTZ() {
 
     const projectInstitutes=['СТО', 'СПбПИ', 'МПИ', 'НПИ','Общая практика'];
 
-    return(<Page className='create-VTZ-page'>
+    return(<Page className='create-documentation-page'>
         <Spacer space={22} />
-        <Text className='title'>Создание ВТЗ</Text>
+        <Text className='title'>Добавление документации</Text>
         <Spacer space={30} />
         <Flex gap={20}>
             <Text className='text'>Номер ВТЗ</Text>
