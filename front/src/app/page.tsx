@@ -5,7 +5,7 @@ export default async function Home() {
 
   return redirect('/vtz-table');
 }
-//тест Привет, Аня
+
 
 
 
