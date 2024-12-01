@@ -1,0 +1,6 @@
+@VTZProject.Backend_HostAddress = http://localhost:5110
+
+GET {{VTZProject.Backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

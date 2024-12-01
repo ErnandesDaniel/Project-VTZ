@@ -1,0 +1,11 @@
+.git
+.gitignore 
+**/.gitkeep
+**/.DS_Store
+.dockerignore 
+Dockerfile
+node_modules
+.next
+npm-debug.log
+LICENSE
+README.md

@@ -29,6 +29,16 @@ services:
     networks:
       - vtz-network
 
+  nextjs:
+    build: ./front
+    container_name: nextjs
+    ports:
+      - ${FRONT_APP_PORT}:3000
+    restart: unless-stopped
+    networks:
+      - vtz-network
+
+
 networks:
   vtz-network:
     driver: bridge
