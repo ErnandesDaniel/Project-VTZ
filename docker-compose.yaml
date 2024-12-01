@@ -29,6 +29,19 @@ services:
     networks:
       - vtz-network
 
+
+
+
+nextjs:
+  build:
+    context: .
+    dockerfile: front/Dockerfile
+  container_name: nextjs
+  restart: unless-stopped
+  networks:
+    - app-network
+
+
 networks:
   vtz-network:
     driver: bridge
