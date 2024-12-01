@@ -85,7 +85,7 @@ builder.Services.AddAuthentication(options =>
 
 // Добавляем контекст базы данных
 builder.Services.AddDbContext<ApplicationContext>(
-    options => options.UseNpgsql("Host=localhost;Username=postgres;Password=1234;Database=VTZ1")
+    options => options.UseNpgsql("Host=localhost;Username=postgres;Password=1331;Database=vtz")
 );
 
 // Добавляем AutoMapper
