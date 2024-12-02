@@ -1,0 +1,49 @@
+.result-documentation-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+
+
+}
+/* Кнопки */
+.ant-btn-primary {
+    background-color: #025ea1; /* Темно-синий */
+    border-color: #025ea1;
+}
+
+.ant-btn-primary:hover {
+    background-color: #004080; /* Более темный оттенок */
+    border-color: #004080;
+}
+
+.ant-btn {
+    font-size: 16px;
+    padding: 8px 20px;
+}
+
+
+.result-documentation-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+}
+/* Фон и тень */
+.result-container {
+    position: absolute;
+    margin-top: 30px;
+    margin-right: 280px;
+    margin-bottom: 320px;
+
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    max-width: 600px;
+    text-align: center;
+}
+
