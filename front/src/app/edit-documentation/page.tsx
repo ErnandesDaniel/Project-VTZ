@@ -50,8 +50,9 @@ export default function edit_documentation() {
 
             <Spacer space={30} />
             <div className="button-container">
-                <Button title='Сохранить'/>
+                <Button title='Сохранить' width={150} height={40}/>
             </div>
         </Page>
     );
+
 }

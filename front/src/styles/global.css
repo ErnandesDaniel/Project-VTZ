@@ -54,6 +54,31 @@
         margin-bottom: 20px; /* Отступ снизу, чтобы тень была видна */
     }
 
+    /* Переопределяем стандартный стиль для кнопки */
+    .ant-btn-primary {
+        background-color: #025ea1;
+        color: white;
+        border-radius: 10px;
+        border: none;
+    }
+
+    /* Стиль кнопки при наведении */
+    .ant-btn-primary:hover {
+        background-color: #014d80;
+    }
+
+    /* Стиль для других типов кнопок */
+    .ant-btn-default {
+        background-color: #f0f0f0;
+        color: #333;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .ant-btn-default:hover {
+        background-color: #e6e6e6;
+    }
+
 }
 
 
