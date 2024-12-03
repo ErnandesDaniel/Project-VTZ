@@ -1,7 +1,6 @@
 # Base image used to create the final image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 80
 
 # Build image which builds the project and prepares the assets for publishing
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build

@@ -5,7 +5,6 @@ services:
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_DB: '${DB_NAME}'
       PG_DATA: /var/lib/postgresql/data
     ports:
       - ${DB_PORT}:5432
@@ -29,15 +28,26 @@ services:
     networks:
       - vtz-network
 
-  nextjs:
-    build: ./front
-    container_name: nextjs
+  backend:
+    build: ./back
+    container_name: back
     ports:
-      - ${FRONT_APP_PORT}:3000
+      - 7217:7217
+      - 5000:8080
+    depends_on:
+      - postgres
+      - pgadmin
     restart: unless-stopped
     networks:
       - vtz-network
 
+#  front:
+#    build: ./front
+#    container_name: front
+#    ports:
+#      - ${FRONT_APP_PORT}:3000
+#    networks:
+#      - vtz-network
 
 networks:
   vtz-network:
