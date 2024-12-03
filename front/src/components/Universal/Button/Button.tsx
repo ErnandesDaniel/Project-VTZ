@@ -10,7 +10,8 @@ export default function FormButton({
     className,
     block,
     width=250,
-    height=40,
+    height=35,
+    backgroundColor,
     onClick,
     }:{
     title:string;
@@ -20,8 +21,9 @@ export default function FormButton({
     className?:string;
     block?:boolean;
     width?:number;
+    backgroundColor?: string;
     onClick?:any;
     }) {
-    return(<Button onClick={onClick} style={{width:`${width}px`, height: `${height}px`, display:'block'}} type={type} size={size} htmlType={htmlType} className={className} block={block}>{title}</Button>)
+    return(<Button onClick={onClick} style={{width:`${width}px`, height: `${height}px`, display:'block', backgroundColor: backgroundColor || "#025EA1",}} type={type} size={size} htmlType={htmlType} className={className} block={block}>{title}</Button>)
 }
 

@@ -130,7 +130,7 @@ export default function SideFilters() {
 
             <Spacer space={10}/>
 
-            <Button  title='Применить' width={100}/>
+            <Button  title='Применить' width={150} height={65} backgroundColor="#6CACE4"/>
 
         </Flex>)
 }
