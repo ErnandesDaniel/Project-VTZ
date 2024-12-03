@@ -1,22 +1,22 @@
-# Base image used to create the final image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
 WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
 
-# Build image which builds the project and prepares the assets for publishing
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["VTZProject.Backend.csproj", ""]
+COPY ["VTZProject.Backend.csproj", "."]
 RUN dotnet restore "./VTZProject.Backend.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "./VTZProject.Backend.csproj" -c Release -o /app/build
+RUN dotnet build "./VTZProject.Backend.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
-# Publish image which sets up the optimized version of the app into a folder
 FROM build AS publish
-RUN dotnet publish "./VTZProject.Backend.csproj" -c Release -o /app/publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./VTZProject.Backend.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-# Final image which only contains the published content of the project
-# This is where the resulting files of the published app are moved to
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
