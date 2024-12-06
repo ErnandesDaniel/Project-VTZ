@@ -16,3 +16,103 @@
 .input-text{
     max-width:300px;
 }
+
+.section-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 5px;
+    margin-left: 155px;
+}
+
+.section-tag {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-family: 'Montserrat', sans-serif;
+    color: #7F7F7F;
+    line-height: 1.5;
+}
+
+.section-tag span {
+    margin-right: 8px;
+    font-size: 13px;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: #7F7F7F;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.remove-btn:hover {
+    color: #d9363e;
+}
+
+.relations-container {
+    max-width: 1130px;
+    display: flex;
+    gap: 70px;
+    padding: 15px;
+
+}
+
+.relations-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.relations-header {
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.relations-list {
+    width: 500px;
+    height: 150px;
+    border: 1px solid #e1e1e1;
+    border-radius: 5px;
+    overflow-y: scroll; /* Всегда показывать вертикальный скролл */
+    padding-right: 40px; /* пространство для вертикальной полосы прокрутки */
+    padding-bottom: 50px; /* запас снизу для прокрутки */
+}
+
+.relations-list::-webkit-scrollbar {
+    width: 8px; /* Ширина скроллбара */
+}
+
+.relations-list::-webkit-scrollbar-thumb {
+    background: #7F7F7F; /* Цвет "ползунка" */
+    border-radius: 4px; /* Закругление */
+}
+
+.relations-list::-webkit-scrollbar-thumb:hover {
+    background: #7F7F7F; /* Цвет при наведении */
+}
+
+.relations-list-item {
+    display: flex;
+    align-items: center;
+    font-size: 5px !important;
+    justify-content: space-between;
+    padding: 5px 10px;
+
+
+}
+
+.relations-list-item:last-child {
+    border-bottom: none;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
