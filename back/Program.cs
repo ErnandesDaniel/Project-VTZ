@@ -85,7 +85,7 @@ builder.Services.AddAuthentication(options =>
 
 // Добавляем контекст базы данных
 builder.Services.AddDbContext<ApplicationContext>(
-    options => options.UseNpgsql("Host=localhost;Username=postgres;Password=1331;Database=vtz")
+    options => options.UseNpgsql("Host=vtz-db-postgres;Username=postgres;Password=1331;Database=postgres")
 );
 
 // Добавляем AutoMapper
@@ -125,7 +125,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ApplicationContext>();
-        context.Database.Migrate(); // Применяем миграции
+        //context.Database.Migrate(); // Применяем миграции
     }
     catch (Exception ex)
     {

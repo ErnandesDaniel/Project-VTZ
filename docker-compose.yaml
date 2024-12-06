@@ -1,7 +1,10 @@
 services:
-  postgres:
+
+  db:
     container_name: vtz-db-postgres
     image: postgres
+    restart: always
+    shm_size: 128mb
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USERNAME}
@@ -13,6 +16,11 @@ services:
       - ./pgdata/data:/var/lib/postgresql/data
     networks:
       - vtz-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   pgadmin:
     container_name: vtz-db-pgadmin
@@ -28,16 +36,36 @@ services:
       driver: none
     networks:
       - vtz-network
+    depends_on:
+      db:
+        condition: service_healthy
 
-  nextjs:
-    build: ./front
-    container_name: nextjs
+  vtz_back:
+    container_name: vtz_back
+    build:
+      context: ./back
+      dockerfile: ./Dockerfile
+      args:
+        BUILD_CONFIGURATION: Release
     ports:
-      - ${FRONT_APP_PORT}:3000
-    restart: unless-stopped
+      - ${BACK_APP_PORT}:8080
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development # Установите необходимое окружение
+    volumes:
+      - ./logs:/app/logs # Пример монтирования локальной папки
     networks:
       - vtz-network
+    depends_on:
+      db:
+        condition: service_healthy
 
+#  front:
+#    build: ./front
+#    container_name: front
+#    ports:
+#      - ${FRONT_APP_PORT}:3000
+#    networks:
+#      - vtz-network
 
 networks:
   vtz-network:
