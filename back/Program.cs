@@ -134,6 +134,9 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+//Разрешаем в CORS-политике все запросы
+app.UseCors("AllowAll");
+
 // Настройка пайплайна запросов
 app.UseHttpsRedirection();
 app.UseAuthentication();  // Использование аутентификации
