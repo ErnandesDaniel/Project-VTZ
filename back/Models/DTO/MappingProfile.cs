@@ -8,10 +8,10 @@ namespace VTZProject.Backend.Models.DTO
         {
             // Основной маппинг TaskVTZ -> TaskVTZDto и обратно
             CreateMap<TaskVTZ, TaskVTZDto>()
-                .ForMember(dest => dest.PredecessorRelations, opt => opt.MapFrom(src => src.SuccessorRelations.Select(r => r.Id)))
-                .ForMember(dest => dest.SuccessorRelations, opt => opt.MapFrom(src => src.PredecessorRelations.Select(r => r.Id)))
-                .ForMember(dest => dest.GroupIds, opt => opt.MapFrom(src => src.TaskToGroups.Select(g => g.Id)))
-                .ForMember(dest => dest.MatchingGroupIds, opt => opt.MapFrom(src => src.TaskToGroupOfMatchings.Select(g => g.Id)))
+                .ForMember(dest => dest.PredecessorRelations, opt => opt.MapFrom(src => src.PredecessorRelations.Select(r => r.PredecessorTaskId)))
+                .ForMember(dest => dest.SuccessorRelations, opt => opt.MapFrom(src => src.SuccessorRelations.Select(r => r.SuccessorTaskId)))
+                .ForMember(dest => dest.GroupIds, opt => opt.MapFrom(src => src.TaskToGroups.Select(g => g.GroupId)))
+                .ForMember(dest => dest.MatchingGroupIds, opt => opt.MapFrom(src => src.TaskToGroupOfMatchings.Select(g => g.GroupOfMatchingId)))
                 .ForMember(dest => dest.Sections, opt => opt.MapFrom(src => src.Sections))
                 .ForMember(dest => dest.Practices, opt => opt.MapFrom(src => src.Practices));
 
