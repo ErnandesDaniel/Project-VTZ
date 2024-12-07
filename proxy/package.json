@@ -1,0 +1,10 @@
+{
+  "name": "proxy-vtz",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors-anywhere": "^0.4.4"
+  }
+}

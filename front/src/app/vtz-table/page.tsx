@@ -17,7 +17,8 @@ const VTZTable = () => {
     const [vtz, setVtz]=useState([]);
 
     useEffect(()=>{
-        axios.get('http://localhost:6001/http://localhost:5000/api/TaskVTZ/GetAll?withData=true').then((res)=>{
+        //axios.get('http://localhost:6001/http://localhost:5000/api/TaskVTZ/GetAll?withData=true').then((res)=>{
+        axios.get('http://localhost:5000/api/TaskVTZ/GetAll?withData=true').then((res)=>{
             setVtz(res.data.value.$values.map(({taskNumber, taskName, practices, sections})=>{
                 return{
                 VTZ_number:taskNumber,
