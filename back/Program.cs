@@ -13,17 +13,6 @@ using VTZProject.Backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Конфигурируем CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll", builder =>
-    {
-        builder.AllowAnyOrigin()
-               .AllowAnyHeader()
-               .AllowAnyMethod();
-    });
-});
-
 // Добавляем сервисы контроллеров и эндпоинтов с настройкой сериализации JSON для обработки циклических ссылок
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -92,6 +81,17 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = jwtSettings.Audience,
         IssuerSigningKey = signingKey
     };
+});
+
+// Конфигурируем CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+    });
 });
 
 // Добавляем контекст базы данных

@@ -1,4 +1,5 @@
-﻿using VTZProject.Backend.Models;
+﻿using AutoMapper;
+using VTZProject.Backend.Models;
 using VTZProject.Backend.Models.DTO;
 using VTZProject.Backend.Models.Extensions;
 using VTZProject.Backend.Repositories;
@@ -8,15 +9,17 @@ namespace VTZProject.Backend.Tools.Services
     public class TaskVTZDtoService : ITaskVTZDtoService
     {
         private readonly IRepository<TaskVTZ> _repository;
+        private readonly IMapper _mapper;
 
-        public TaskVTZDtoService(IRepository<TaskVTZ> repository)
+        public TaskVTZDtoService(IRepository<TaskVTZ> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
         public IEnumerable<TaskVTZDto> GetTasksWithLineNumber()
         {
-            var tasks = _repository.GetAll(true).Select(t => t.ToDto(true)).ToDictionary(dto => dto.Id);
+            var tasks = _repository.GetAll(true).Select(t => _mapper.Map<TaskVTZDto>(t)).ToDictionary(dto => dto.Id);
             var result = new List<TaskVTZDto>();
             var currentLevelTasks = new Queue<TaskVTZDto>();
 
@@ -56,7 +59,7 @@ namespace VTZProject.Backend.Tools.Services
 
         public IEnumerable<TaskVTZDto> GetAllAfter(Guid id)
         {
-            var all = _repository.GetAll(true).Select(t => t.ToDto(true)).ToDictionary(t => t.Id);
+            var all = _repository.GetAll(true).Select(t => _mapper.Map<TaskVTZDto>(t)).ToDictionary(t => t.Id);
             var result = new List<TaskVTZDto>();
 
             var successors = new Queue<TaskVTZDto>();
@@ -78,7 +81,7 @@ namespace VTZProject.Backend.Tools.Services
 
         public IEnumerable<TaskVTZDto> GetAllBefore(Guid id)
         {
-            var all = _repository.GetAll(true).Select(t => t.ToDto(true)).ToDictionary(t => t.Id);
+            var all = _repository.GetAll(true).Select(t => _mapper.Map<TaskVTZDto>(t)).ToDictionary(t => t.Id);
             var result = new List<TaskVTZDto>();
 
             var successors = new Queue<TaskVTZDto>();

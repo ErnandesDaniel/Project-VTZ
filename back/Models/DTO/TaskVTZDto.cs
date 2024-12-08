@@ -11,6 +11,7 @@
         public bool RequiresClarification { get; set; } = false;
         public int Line { get; set; }
         public bool IsVisible { get; set; } = true;
+        public bool IsDeleted { get; set; }
 
         public IEnumerable<Guid>? PredecessorRelations { get; set; }
         public IEnumerable<Guid>? SuccessorRelations { get; set; }
