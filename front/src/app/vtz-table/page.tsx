@@ -7,7 +7,7 @@ import {dataSource} from "@/app/vtz-table/table-mock-data";
 const VTZTable = () => {
     const tableParams = {
         pagination: {
-            pageSize: 3, // Настройка количества строк на странице
+            pageSize: 4, // Настройка количества строк на странице
         },
     };
 
