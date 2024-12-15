@@ -15,7 +15,6 @@ import {
 import VtzNode from "@/app/vtz-schema/components/vtz-node/vtz-node";
 import Spacer from "@/components/Universal/Spacer/Spacer";
 import {useCallback, useMemo, useState} from "react";
-import {useVTZStore} from "@/store/store";
 
 import dagre from '@dagrejs/dagre';
 import useInitialElements from "@/app/vtz-schema/hooks/initialElements";
