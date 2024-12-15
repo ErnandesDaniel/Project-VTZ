@@ -13,8 +13,6 @@ export default function SideFilters() {
     const pagesLinks=[
         {text:'Схема ВТЗ', href:''},
         {text:'Задания', href:''},
-        {text:'Задания без связей', href:''},
-        {text:'Удаленные задания', href:''},
         {text:'Документация', href:''},
         {text:'Личный кабинет', href:''},
         {text:'История изменений', href:''},
@@ -72,12 +70,13 @@ export default function SideFilters() {
 
     return (
         <Flex className='side-filters' vertical>
+
             <Image
                 src={AtomIconSVG}
                 priority
                 alt="Follow us on Twitter"
             />
-            <Spacer space={20}/>
+            <Spacer space={50}/>
 
             <div className="links-list">
                 {pagesLinks.map(({text}) => <div key={text} className='link-element'>
@@ -85,61 +84,81 @@ export default function SideFilters() {
                 </div>)}
             </div>
 
-            <Spacer space={25}/>
+            <Spacer space={30}/>
 
             <div className="filters_title">Фильтры</div>
 
+            <Spacer space={10}/>
+
+            <div className="filters-container">
+
+                <ChoiceOrAnd title='Проектный институт'/>
+                <Spacer space={20}/>
+
+                {institutesFilters.map(({text}) => <Checkbox key={text} style={{
+                    fontSize: '14px',
+                    fontFamily: 'Montserrat, sans-serif'
+                }}>{text}</Checkbox>)}
+
+                <Spacer space={40}/>
+
+                <ChoiceOrAnd title='Документация'/>
+                <Spacer space={20}/>
+
+                {documentsFilters.map(({text}) => <Checkbox key={text} style={{
+                    fontSize: '14px',
+                    fontFamily: 'Montserrat, sans-serif'
+                }}>{text}</Checkbox>)}
+
+
+                <Spacer space={40}/>
+
+                <ChoiceOrAnd title='Раздел документации'/>
+
+                <Spacer space={10}/>
+
+                <Select
+                    showSearch
+                    placeholder="Выберите раздел документации"
+                    optionFilterProp="label"
+                    options={documentationList.map(({text, id}) => {
+                        return {value: id, label: text}
+                    })}
+                />
+
+                <Spacer space={40}/>
+
+                <div className='VTZ-filter'>Фильтр по ВТЗ</div>
+
+                <Spacer space={10}/>
+
+                <Select
+                    showSearch
+                    placeholder="Выберите ВТЗ"
+                    optionFilterProp="label"
+                    options={VTZ_List.map(({text, id}) => {
+                        return {value: id, label: text}
+                    })}
+                />
+            </div>
+
             <Spacer space={20}/>
 
-            <ChoiceOrAnd title='Проектный институт'/>
-
-            {institutesFilters.map(({text}) => <Checkbox key={text}>{text}</Checkbox>)}
-
-            <Spacer space={20}/>
-
-            <ChoiceOrAnd title='Документация'/>
-
-            {documentsFilters.map(({text}) => <Checkbox key={text}>{text}</Checkbox>)}
+            <Button title='Применить' width={150} height={40} backgroundColor="#6CACE4"/>
 
 
-            <Spacer space={10}/>
 
-            <ChoiceOrAnd title='Раздел документации'/>
 
-            <Spacer space={10}/>
 
-            <Select
-                showSearch
-                placeholder="Выберите раздел документации"
-                optionFilterProp="label"
-                options={documentationList.map(({text, id})=>{return {value:id, label:text}})}
-            />
-
-            <Spacer space={10}/>
-
-            <div className='VTZ-filter'>Фильтр по ВТЗ</div>
-
-            <Spacer space={10}/>
-
-            <Select
-                showSearch
-                placeholder="Выберите ВТЗ"
-                optionFilterProp="label"
-                options={VTZ_List.map(({text, id})=>{return {value:id, label:text}})}
-            />
-
-            <Spacer space={10}/>
-
-            <Button  title='Применить' width={150} height={65} backgroundColor="#6CACE4"/>
-
-        </Flex>)
+        </Flex>
+    )
 }
 
 
 /*
 
 
-                filterSort={(optionA, optionB) =>
+filterSort={(optionA, optionB) =>
                     (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                 }
 
@@ -179,6 +198,11 @@ export default function SideFilters() {
                 <div className="Filtr_vtz">Фильтр по ВТЗ</div>
                 <input placeholder="Выберите ВТЗ"/>
                 <div className="button_3">Применить</div>
+
+
+
+                    {text:'Задания без связей', href:''},
+        {text:'Удаленные задания', href:''},
 
 
 

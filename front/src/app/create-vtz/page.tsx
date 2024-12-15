@@ -83,8 +83,8 @@ export default function create_VTZ() {
             </Flex>
             <Spacer space={30} />
             <Flex gap={50}>
-                <Button title='Создать' width={150} height={40}/>
-                <Button type='default' title='Назад к списку' width={150} height={40} backgroundColor="white"/>
+                <Button title='Создать' width={150} height={35}/>
+                <Button type='default' title='Назад к списку' width={150} height={35} backgroundColor="white"/>
             </Flex>
         </Page>
     );

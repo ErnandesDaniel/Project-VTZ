@@ -13,9 +13,19 @@
     align-items: center;
 }
 
-.input-text{
+.input1-text{
     max-width:300px;
 }
+
+.input2-text{
+    max-width:800px;
+}
+
+.input3-text{
+    max-width:400px;
+}
+
+
 
 .section-tags {
     display: flex;
@@ -55,10 +65,10 @@
 }
 
 .relations-container {
-    max-width: 1130px;
+    width: 800px;
     display: flex;
-    gap: 70px;
-    padding: 15px;
+    gap: 40px;
+    padding: 5px;
 
 }
 
@@ -115,4 +125,9 @@
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+}
+
+.edit-VTZ-page {
+    margin-left: 40px; /* Отодвигает всё вправо от меню */
+    padding-right: 20px; /* Добавляет отступ справа */
 }

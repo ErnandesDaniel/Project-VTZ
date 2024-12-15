@@ -48,9 +48,9 @@ export default function edit_documentation() {
                 </div>
             </div>
 
-            <Spacer space={30} />
+            <Spacer space={25} />
             <div className="button-container">
-                <Button title='Сохранить' width={150} height={40}/>
+                <Button title='Сохранить' width={150} height={35}/>
             </div>
         </Page>
     );

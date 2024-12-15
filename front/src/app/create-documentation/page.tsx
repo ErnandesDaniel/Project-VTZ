@@ -2,7 +2,7 @@
 import Spacer from "@/components/Universal/Spacer/Spacer";
 import Page from "@/components/Page/Page";
 import Text from "@/components/Universal/Text/Text";
-import './edit-documentation.css';
+import './create-documentation.css';
 import { Input, Flex } from 'antd';
 import Button from "@/components/Universal/Button/Button";
 import CheckBoxButton from "@/app/edit-documentation/components/check-box-button";
@@ -12,7 +12,7 @@ export default function edit_documentation() {
     const typeDocumentation = ['ПД', 'РД', 'Анализы', 'ВАБ-1'];
 
     return (
-        <Page className='edit-documentation-page'>
+        <Page className='create-documentation-page'>
             <Spacer space={22} />
             <Text className='title'>Добавление документации</Text>
             <Spacer space={40} />
@@ -48,9 +48,9 @@ export default function edit_documentation() {
                 </div>
             </div>
 
-            <Spacer space={30} />
+            <Spacer space={25} />
             <div className="button-container">
-                <Button title='Добавить' width={150} height={40}/>
+                <Button title='Добавить' width={150} height={35}/>
             </div>
         </Page>
     );

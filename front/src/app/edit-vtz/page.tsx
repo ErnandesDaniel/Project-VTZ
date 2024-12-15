@@ -23,7 +23,7 @@ export default function edit_VTZ() {
             <Flex gap={20}>
                 <Text className='text'>Номер ВТЗ</Text>
                 <Input
-                    className='input-text'
+                    className='input1-text'
                     placeholder='Введите номер ВТЗ'
                 />
             </Flex>
@@ -31,7 +31,7 @@ export default function edit_VTZ() {
             <Flex gap={20}>
                 <Text className='text'>Вид ВТЗ</Text>
                 <Input
-                    className='input-text'
+                    className='input2-text'
                     placeholder='Введите название ВТЗ'
                 />
             </Flex>
@@ -41,7 +41,7 @@ export default function edit_VTZ() {
             <Flex gap={20}>
                 <Text className='text'>Разделы ПД/РД</Text>
                 <Search
-                    className='input-text'
+                    className='input3-text'
                     placeholder='Выберите разделы ПД/РД'
                 />
                 <Flex gap={20} align="center">
@@ -72,7 +72,7 @@ export default function edit_VTZ() {
                 </div>
             </Flex>
 
-            <Spacer space={30} />
+            <Spacer space={25} />
             <Flex gap={15}>
                 <Text className='text'>Проектные институты</Text>
                 {
@@ -94,11 +94,11 @@ export default function edit_VTZ() {
                             <PlusSquareOutlined
                                 style={{fontSize: '20px', color: '#1890ff', cursor: 'pointer', marginRight: '5px'}}
                             />
-                            <span style={{marginRight: '100px'}}>Добавить</span>
+                            <span style={{marginRight: '100px', fontSize: '14px', fontFamily: 'Montserrat, sans-serif !important'}}>Добавить</span>
                             <DeleteOutlined
                                 style={{fontSize: '20px', color: '#d9363e', cursor: 'pointer', marginRight: '5px'}}
                             />
-                            <span style={{marginRight: '50px'}}>Удалить</span>
+                            <span style={{marginRight: '50px', fontSize: '14px', fontFamily: 'Montserrat, sans-serif !important'}}>Удалить</span>
                         </div>
                     </div>
                     <Spacer space={5} />
@@ -126,11 +126,11 @@ export default function edit_VTZ() {
                             <PlusSquareOutlined
                                 style={{fontSize: '20px', color: '#1890ff', cursor: 'pointer', marginRight: '5px'}}
                             />
-                            <span style={{marginRight: '100px'}}>Добавить</span>
+                            <span style={{marginRight: '100px', fontSize: '14px', fontFamily: 'Montserrat, sans-serif !important'}}>Добавить</span>
                             <DeleteOutlined
                                 style={{fontSize: '20px', color: '#d9363e', cursor: 'pointer', marginRight: '5px'}}
                             />
-                            <span style={{marginRight: '50px'}}>Удалить</span>
+                            <span style={{marginRight: '50px', fontSize: '14px', fontFamily: 'Montserrat, sans-serif !important'}}>Удалить</span>
                         </div>
                     </div>
                     <Spacer space={5}/>
@@ -145,10 +145,10 @@ export default function edit_VTZ() {
                 </div>
             </Flex>
 
-            <Spacer space={30}/>
-            <Flex gap={50}>
-                <Button title='Создать' width={150} height={40}/>
-                <Button type='default' title='Назад к списку' width={150} height={40} backgroundColor="white"/>
+            <Spacer space={40}/>
+            <Flex gap={40}>
+                <Button title='Создать' width={150} height={35}/>
+                <Button type='default' title='Назад к списку' width={150} height={35} backgroundColor="white"/>
             </Flex>
 
 

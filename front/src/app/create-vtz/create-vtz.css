@@ -53,3 +53,8 @@
 .remove-btn:hover {
     color: #d9363e;
 }
+
+.create-VTZ-page {
+    margin-left: 40px; /* Отодвигает всё вправо от меню */
+    padding-right: 20px; /* Добавляет отступ справа */
+}

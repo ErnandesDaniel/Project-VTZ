@@ -16,7 +16,9 @@ import {dataSource} from "@/app/documentation-table/table-mock-data";
         return (
             <Page>
                 <Spacer space={22} />
-                <div className="documentation-table-wrapper">
+                <div style={{ marginLeft: "20px" }}
+                    className="documentation-table-wrapper">
+
                     <Table
                         className="documentation-table" // Уникальный класс для таблицы
                         columns={columns}
