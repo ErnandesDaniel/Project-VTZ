@@ -4,19 +4,33 @@ import { create } from 'zustand';
 import apiInstance from "@/lib/apiInstance";
 
 interface VTZStore {
-    vtzList:[];
-    loadVTZ: Dispatch<[]>;
+    vtzTaskList:[];
+    loadVTZTasks: Dispatch<[]>;
+    loadVTZGateways: Dispatch<[]>;
+    vtzGatewaysList: [];
 }
 
 export const useVTZStore = create<VTZStore>()((set, get) => ({
 
-    loadVTZ: async ()=>{
-        const {vtzList}=get();
-        if(vtzList.length===0){
+    loadVTZTasks: async ()=>{
+        const {vtzTaskList}=get();
+        if(vtzTaskList.length===0){
             const response = await apiInstance.get(`/TaskVTZ/GetAll?withData=${true}`);
-            set({vtzList: response.data?.value.$values})
+            set({vtzTaskList: response.data?.value.$values})
         }
     },
-    vtzList: [],
+
+    loadVTZGateways: async ()=>{
+        const {vtzGatewaysList}=get();
+        if(vtzGatewaysList.length===0){
+            const response = await apiInstance.get(`/Gateways`);
+            console.log(response);
+            set({vtzGatewaysList: response.data?.value.$values})
+        }
+    },
+
+
+    vtzGatewaysList:[],
+    vtzTaskList: [],
     //deleteVTZ: deleteVTZId => set(state => ({ vtzList: state.vtzList.filter(({ key }) => key !== deleteVTZId) })),
 }));

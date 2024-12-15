@@ -4,32 +4,26 @@ import './vtz-schema.css';
 
 import '@xyflow/react/dist/style.css';
 
-import { Radio } from 'antd';
-
-const {Group:RadioGroup}=Radio;
-
-import {
-    ReactFlow,
-    Controls
-} from '@xyflow/react';
-import VtzNode from "@/app/vtz-schema/components/vtz-node/vtz-node";
+import {Radio} from 'antd';
+import {Controls, ReactFlow} from '@xyflow/react';
+import VtzTaskNode from "@/app/vtz-schema/components/vtz-task-node/vtz-task-node";
 import Spacer from "@/components/Universal/Spacer/Spacer";
 import {useCallback, useEffect, useState} from "react";
 
-import useInitialElements from "@/app/vtz-schema/hooks/initialElements";
+import useInitialVTZNodeElements from "@/app/vtz-schema/hooks/initialVTZNodeElements";
+import ELK from 'elkjs/lib/elk.bundled.js';
+import VtzGatewayNode from "@/app/vtz-schema/components/vtz-gateway-node/vtz-gateway-node";
+
+const {Group:RadioGroup}=Radio;
 
 const nodeTypes = {
-    VtzNode: VtzNode,
+    VtzTaskNode: VtzTaskNode,
+    VtzGatewayNode:VtzGatewayNode,
 };
-
-
-import ELK from 'elkjs/lib/elk.bundled.js';
-
-
 
 export default function VtzSchema() {
 
-    const {initialVtzNodesList, initialVtzEdgesList}=useInitialElements();
+    const {initialVtzNodesList, initialVtzEdgesList}=useInitialVTZNodeElements();
 
     const [fullDisplay, setFullDisplay]=useState<boolean>(true);
 
@@ -42,32 +36,24 @@ export default function VtzSchema() {
         { label: 'Сжатый режим', value: 'unshow' },
     ];
 
-
-
-    const elk = new ELK();
-
     const getLayoutedElements = useCallback((nodes, edges) => {
-
+        const elk = new ELK();
         const elkOptions = {
             'elk.algorithm': 'layered',
             'elk.layered.spacing.nodeNodeBetweenLayers': '100',
             'elk.spacing.nodeNode': '80',
             'elk.direction':'DOWN',
         };
-
-        const nodeWidth = 200;
-        const nodeHeight = 100;
         const graph = {
             id: 'root',
             layoutOptions: elkOptions,
             children: nodes.map((node) => ({
-                ...node,
-                width: nodeWidth,
-                height: nodeHeight,
-            })),
+                    ...node,
+                    width: node.type==='VtzGatewayNode'? 50 : 200,
+                    height: node.type==='VtzGatewayNode'? 50 : 100,
+                })),
             edges: edges,
         };
-
         return elk
             .layout(graph)
             .then((layoutedGraph) => ({
@@ -77,7 +63,6 @@ export default function VtzSchema() {
                     type:node.type,
                     position: { x: node.x, y: node.y },
                 })),
-
                 edges: layoutedGraph.edges,
             }))
             .catch(console.error);
@@ -95,6 +80,10 @@ export default function VtzSchema() {
         ).then((res)=>{
             console.log(res);
             const{nodes, edges}=res;
+
+            console.log('nodes');
+            console.log(nodes);
+
             setLayoutedNodes(nodes);
             setLayoutedEdges(edges);
         });
@@ -105,8 +94,6 @@ export default function VtzSchema() {
         getLayoutedElements,
         initialVtzNodesList,
         initialVtzEdgesList
-
-
     ]);
 
 

@@ -1,6 +1,6 @@
 
 import { Handle, Position } from '@xyflow/react';
-import './node.css';
+import './vtz-task-node.css';
 import { Flex } from 'antd';
 import ConditionalRender from "@/components/Universal/ConditionalRender/ConditionalRender";
 
@@ -15,7 +15,7 @@ interface VtzNodeProps{
 import clsx from "clsx"
 
 
-export default function VtzNode({data}:VtzNodeProps) {
+export default function VtzTaskNode({data}:VtzNodeProps) {
 
     const{
         projectInstitutes,
@@ -34,7 +34,7 @@ export default function VtzNode({data}:VtzNodeProps) {
     }
 
     return(
-        <div className='node'>
+        <div className='vtz-node'>
             <ConditionalRender condition={nodeType== 'default' || nodeType== 'output'}>
                 <Handle
                     type="target"
