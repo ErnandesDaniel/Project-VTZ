@@ -29,7 +29,7 @@ export default function useInitialElements(){
                     } ;
                 }
 
-            }).filter((el, index)=>index<100);
+            }).filter((el, index)=>el!=null);
         }
         ,[vtzList]);
 

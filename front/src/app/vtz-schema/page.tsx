@@ -42,8 +42,8 @@ export default function VtzSchema() {
 
 
     const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-    const nodeWidth = 150;
-    const nodeHeight = 300;
+    const nodeWidth = 300;
+    const nodeHeight = 600;
 
 
     const getLayoutedElements = (nodes, edges) => {
