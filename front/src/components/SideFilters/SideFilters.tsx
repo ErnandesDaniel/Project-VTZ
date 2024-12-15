@@ -8,17 +8,15 @@ import { Checkbox } from "antd";
 import ChoiceOrAnd from "@/components/SideFilters/components/choice-or-and/choice-or-and";
 import Button from "@/components/Universal/Button/Button";
 
+import Link from 'next/link';
+
+
 export default function SideFilters() {
 
     const pagesLinks=[
-        {text:'Схема ВТЗ', href:''},
-        {text:'Задания', href:''},
-        {text:'Задания без связей', href:''},
-        {text:'Удаленные задания', href:''},
-        {text:'Документация', href:''},
-        {text:'Личный кабинет', href:''},
-        {text:'История изменений', href:''},
-
+        {text:'Схема ВТЗ', href:'vtz-schema'},
+        {text:'Задания', href:'vtz-table'},
+        {text:'Документация', href:'documentation-table'},
     ]
 
     const institutesFilters=[
@@ -80,9 +78,11 @@ export default function SideFilters() {
             <Spacer space={20}/>
 
             <div className="links-list">
-                {pagesLinks.map(({text}) => <div key={text} className='link-element'>
-                    {text}
-                </div>)}
+                {pagesLinks.map(({text, href}) =>
+
+                    <Link href={href} key={text} className='link-element'>
+                        {text}
+                    </Link>)}
             </div>
 
             <Spacer space={25}/>

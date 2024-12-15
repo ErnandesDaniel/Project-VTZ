@@ -10,8 +10,11 @@
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
     "@ant-design/nextjs-registry": "^1.0.1",
+    "@dagrejs/dagre": "^1.1.4",
+    "@xyflow/react": "^12.3.6",
     "axios": "^1.7.9",
     "clsx": "^2.1.1",
+    "elkjs": "^0.9.3",
     "next": "14.2.15",
     "react": "^18",
     "react-dom": "^18",

@@ -1,0 +1,12 @@
+.vtz-schema-page{
+
+
+    .radio-group{
+       width:300px;
+
+    }
+
+    .react_flow_container{
+        height:calc(100% - 200px);
+    }
+}

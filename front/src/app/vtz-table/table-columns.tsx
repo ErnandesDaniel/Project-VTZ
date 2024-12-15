@@ -71,10 +71,10 @@ export const columns=(deleteVTZ) => [
 
     {
         title: 'Удалено',
-        dataIndex: 'deleted',
-        render: () =>
+        dataIndex: 'isDeleted',
+        render: (_, record) =>
             ( <Flex justify='center'>
-            <Checkbox checked={false} />
+            <Checkbox checked={record.isDeleted} />
             </Flex>)
 
     },
