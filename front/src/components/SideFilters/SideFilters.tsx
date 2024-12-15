@@ -9,9 +9,33 @@ import ChoiceOrAnd from "@/components/SideFilters/components/choice-or-and/choic
 import Button from "@/components/Universal/Button/Button";
 
 import Link from 'next/link';
+import {useMemo} from "react";
+import {useVTZStore} from "@/store/store";
 
 
 export default function SideFilters() {
+
+    const{vtzTaskList, vtzDocumentationList}= useVTZStore();
+
+    const vtzSearchList=useMemo(()=>
+            vtzTaskList.map(({taskNumber, taskName})=>{
+                return{
+                    id: taskNumber,
+                    text:taskName,
+                }
+            })
+        ,[vtzTaskList]);
+
+
+    const vtzDocumentationSearchList=useMemo(()=>
+            vtzDocumentationList?.map(({id, sectionName})=>{
+                return{
+                    id: id,
+                    text:sectionName,
+                }
+            })
+        ,[vtzDocumentationList]);
+
 
     const pagesLinks=[
         {text:'Схема ВТЗ', href:'vtz-schema'},
@@ -36,39 +60,6 @@ export default function SideFilters() {
         { text:'ВАБ-1' },
         { text:'Анализы' },
     ]
-
-    const VTZ_List=[
-
-        {text:'Первое ВТЗ', id:1},
-        {text:'Второе ВТЗ', id:2},
-        {text:'Третье ВТЗ', id:3},
-        {text:'Четвертое ВТЗ', id:4},
-        {text:'Пятое ВТЗ', id:5},
-        {text:'Шестое ВТЗ', id:6},
-        {text:'Седьмое ВТЗ', id:7},
-        {text:'Восьмое ВТЗ', id:8},
-        {text:'Девятое ВТЗ', id:9},
-        {text:'Десятое ВТЗ', id:10},
-
-    ];
-
-    const documentationList=[
-
-        {text:'Первый раздел документации', id:1},
-        {text:'Второй раздел документации', id:2},
-        {text:'Третий раздел документации', id:3},
-        {text:'Четвертый раздел документации', id:4},
-        {text:'Пятый раздел документации', id:5},
-        {text:'Шестой раздел документации', id:6},
-        {text:'Седьмой раздел документации', id:7},
-        {text:'Восьмой раздел документации', id:8},
-        {text:'Девятый раздел документации', id:9},
-        {text:'Десятый раздел документации', id:10},
-
-    ];
-
-
-
 
     return (
         <Flex className='side-filters' vertical>
@@ -125,7 +116,7 @@ export default function SideFilters() {
                     showSearch
                     placeholder="Выберите раздел документации"
                     optionFilterProp="label"
-                    options={documentationList.map(({text, id}) => {
+                    options={vtzDocumentationSearchList?.map(({text, id}) => {
                         return {value: id, label: text}
                     })}
                 />
@@ -140,7 +131,7 @@ export default function SideFilters() {
                     showSearch
                     placeholder="Выберите ВТЗ"
                     optionFilterProp="label"
-                    options={VTZ_List.map(({text, id}) => {
+                    options={vtzSearchList?.map(({text, id}) => {
                         return {value: id, label: text}
                     })}
                 />

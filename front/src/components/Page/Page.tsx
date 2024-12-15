@@ -10,12 +10,13 @@ interface PageProps {
 }
 const Page=({children, className}:PageProps)=>{
 
-    const{loadVTZTasks, loadVTZGateways}= useVTZStore();
+    const{loadVTZTasks, loadVTZGateways, loadVTZDocumentation}= useVTZStore();
     
     useEffect(()=>{
         loadVTZTasks();
         loadVTZGateways();
-    },[loadVTZTasks, loadVTZGateways]);
+        loadVTZDocumentation();
+    },[loadVTZTasks, loadVTZGateways, loadVTZDocumentation]);
 
     return(<div className={clsx(className, 'page')}>
         {children}

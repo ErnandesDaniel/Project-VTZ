@@ -60,6 +60,24 @@
         background-color: #fff; /* Белый фон */
     }
 
+
+
+    .filters-container::-webkit-scrollbar {
+        width: 5px;               /* ширина scrollbar */
+    }
+    .filters-container::-webkit-scrollbar-track {
+        background: white;        /* цвет дорожки */
+    }
+    .filters-container::-webkit-scrollbar-thumb {
+        background-color: #CBD5E1;    /* цвет плашки */
+        border-radius: 20px;       /* закругления плашки */
+    }
+
+
+
+
+
+
     .side-filters::after {
         content: ''; /* Псевдоэлемент для границы */
         position: absolute;
