@@ -9,10 +9,10 @@ import {useMemo} from "react";
 
 const VTZTable = () => {
 
-    const{vtzList, deleteVTZ}= useVTZStore();
+    const{vtzTaskList, deleteVTZ}= useVTZStore();
 
     const vtzTableList=useMemo(()=>
-        vtzList.map(({taskNumber, taskName, practices, sections})=>{
+            vtzTaskList.map(({taskNumber, taskName, practices, sections})=>{
             return{
                 key: taskNumber,
                 VTZ_number:taskNumber,
@@ -22,7 +22,7 @@ const VTZTable = () => {
                 documentation: sections.$values.map(({sectionName})=>sectionName),
             }
         })
-    ,[vtzList]);
+    ,[vtzTaskList]);
 
     return (
         <Page>
