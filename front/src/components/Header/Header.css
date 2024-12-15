@@ -1,13 +1,14 @@
 .header{
     padding:15px;
-    position:sticky;
+    margin-left:10px;
+    position:static;
     top:0;
     height: 60px;
     z-index:2;
     color:white;
     //background: yellow;
     .search{
-        width:700px;
-        margin-right:50px;
+        width:850px;
+        margin-right:30px;
     }
 }

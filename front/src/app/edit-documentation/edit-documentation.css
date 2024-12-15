@@ -14,5 +14,44 @@
 }
 
 .input-text{
-    max-width:300px;
+    max-width:850px;
+}
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Расстояние между группами элементов */
+}
+
+.form-group {
+    display: flex;
+    align-items: center; /* Центровка по вертикали */
+    gap: 20px; /* Расстояние между меткой и инпутом */
+}
+
+.label {
+    min-width: 150px; /* Фиксированная ширина меток для выравнивания */
+    font-size:20px;
+    font-weight:500;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.checkbox-group {
+    display: flex;
+    gap: 10px; /* Расстояние между чекбоксами */
+}
+
+.input-text,
+.textarea {
+    flex: 1; /* Инпуты растягиваются, занимая оставшееся пространство */
+    max-width: 850px; /* Ограничение ширины для инпутов */
+}
+
+.button-container {
+    display: flex;
+    justify-content: left;
+    margin-top: 20px;
+}
+.edit-documentation-page {
+    margin-left: 40px; /* Отодвигает всё вправо от меню */
+    padding-right: 20px; /* Добавляет отступ справа */
 }

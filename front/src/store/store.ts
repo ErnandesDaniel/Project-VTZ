@@ -5,9 +5,11 @@ import apiInstance from "@/lib/apiInstance";
 
 interface VTZStore {
     vtzTaskList:[];
+    vtzGatewaysList: [];
+    vtzDocumentationList: [];
     loadVTZTasks: Dispatch<[]>;
     loadVTZGateways: Dispatch<[]>;
-    vtzGatewaysList: [];
+    loadVTZDocumentation: Dispatch<[]>;
 }
 
 export const useVTZStore = create<VTZStore>()((set, get) => ({
@@ -24,12 +26,23 @@ export const useVTZStore = create<VTZStore>()((set, get) => ({
         const {vtzGatewaysList}=get();
         if(vtzGatewaysList.length===0){
             const response = await apiInstance.get(`/Gateways`);
-            console.log(response);
+            //console.log(response);
             set({vtzGatewaysList: response.data?.value.$values})
         }
     },
 
+    loadVTZDocumentation: async ()=>{
+        const {vtzDocumentationList}=get();
+        if(vtzDocumentationList.length===0){
+            const response = await apiInstance.get(`/Section`);
+            console.log(response);
+            set({vtzDocumentationList: response.data?.value})
+        }
+    },
 
+
+
+    vtzDocumentationList:[],
     vtzGatewaysList:[],
     vtzTaskList: [],
     //deleteVTZ: deleteVTZId => set(state => ({ vtzList: state.vtzList.filter(({ key }) => key !== deleteVTZId) })),

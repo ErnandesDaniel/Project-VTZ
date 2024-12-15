@@ -4,27 +4,27 @@ export const columns = [
 
     {
         title: '№',
-        dataIndex: 'Number',
+        dataIndex: 'key',
 
     },
 
     {
         title: 'Тип документации',
-        dataIndex: 'Stage',
+        dataIndex: 'shortName',
 
     },
 
 
     {
         title: 'Наименование',
-        dataIndex: 'Name',
+        dataIndex: 'name',
 
 
            },
 
     {
         title: 'Удалено',
-        dataIndex: 'deleted',
+        dataIndex: 'isDeleted',
 
         render: (_: any, record) =>
             ( <Flex justify='center'>

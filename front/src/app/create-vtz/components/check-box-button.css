@@ -9,6 +9,10 @@
     color:black;
     cursor:pointer;
     user-select: none;
+    align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
 .active{
