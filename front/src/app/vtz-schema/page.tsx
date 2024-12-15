@@ -14,14 +14,18 @@ import {
 } from '@xyflow/react';
 import VtzNode from "@/app/vtz-schema/components/vtz-node/vtz-node";
 import Spacer from "@/components/Universal/Spacer/Spacer";
-import {useCallback, useMemo, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
-import dagre from '@dagrejs/dagre';
 import useInitialElements from "@/app/vtz-schema/hooks/initialElements";
 
 const nodeTypes = {
     VtzNode: VtzNode,
 };
+
+
+import ELK from 'elkjs/lib/elk.bundled.js';
+
+
 
 export default function VtzSchema() {
 
@@ -40,44 +44,77 @@ export default function VtzSchema() {
 
 
 
+    const elk = new ELK();
 
-    const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-    const nodeWidth = 300;
-    const nodeHeight = 600;
+    const getLayoutedElements = useCallback((nodes, edges) => {
 
+        const elkOptions = {
+            'elk.algorithm': 'layered',
+            'elk.layered.spacing.nodeNodeBetweenLayers': '100',
+            'elk.spacing.nodeNode': '80',
+            'elk.direction':'DOWN',
+        };
 
-    const getLayoutedElements = (nodes, edges) => {
-        const isHorizontal = true;
-        dagreGraph.setGraph({ rankdir: 'TB' });
-
-        nodes.forEach((node) => {
-            dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
-        });
-
-        edges.forEach((edge) => {
-            dagreGraph.setEdge(edge.source, edge.target);
-        });
-
-        dagre.layout(dagreGraph);
-
-        const newNodes = nodes.map((node) => {
-            const nodeWithPosition = dagreGraph.node(node.id);
-            return {
+        const nodeWidth = 200;
+        const nodeHeight = 100;
+        const graph = {
+            id: 'root',
+            layoutOptions: elkOptions,
+            children: nodes.map((node) => ({
                 ...node,
-                position: {
-                    x: nodeWithPosition.x - nodeWidth / 2,
-                    y: nodeWithPosition.y - nodeHeight / 2,
-                },
-            };
+                width: nodeWidth,
+                height: nodeHeight,
+            })),
+            edges: edges,
+        };
+
+        return elk
+            .layout(graph)
+            .then((layoutedGraph) => ({
+                nodes: layoutedGraph.children?.map((node) => ({
+                    data:node.data,
+                    id:node.id,
+                    type:node.type,
+                    position: { x: node.x, y: node.y },
+                })),
+
+                edges: layoutedGraph.edges,
+            }))
+            .catch(console.error);
+    },[]);
+
+    const [layoutedNodes, setLayoutedNodes]=useState([]);
+
+    const [layoutedEdges, setLayoutedEdges]=useState([]);
+
+    useEffect(()=>{
+
+        getLayoutedElements(
+            initialVtzNodesList,
+            initialVtzEdgesList
+        ).then((res)=>{
+            console.log(res);
+            const{nodes, edges}=res;
+            setLayoutedNodes(nodes);
+            setLayoutedEdges(edges);
         });
 
-        return { nodes: newNodes, edges };
-    };
-
-    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+    },[
+        setLayoutedNodes,
+        setLayoutedEdges,
+        getLayoutedElements,
         initialVtzNodesList,
-        initialVtzEdgesList,
-    );
+        initialVtzEdgesList
+
+
+    ]);
+
+
+    // const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+    //     initialVtzNodesList,
+    //     initialVtzEdgesList,
+    //     elkOptions
+    // );
 
     return(<Page className='vtz-schema-page'>
 
@@ -101,6 +138,7 @@ export default function VtzSchema() {
             nodes={layoutedNodes}
             edges={layoutedEdges}
             nodeTypes={nodeTypes}
+            fitView
             style={{ backgroundColor: "#F7F9FB" }}
         >
             <Controls />
