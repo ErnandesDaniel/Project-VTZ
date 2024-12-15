@@ -48,7 +48,7 @@ export default function VtzSchema() {
 
     const getLayoutedElements = (nodes, edges) => {
         const isHorizontal = true;
-        dagreGraph.setGraph({ rankdir: 'LR' });
+        dagreGraph.setGraph({ rankdir: 'TB' });
 
         nodes.forEach((node) => {
             dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
