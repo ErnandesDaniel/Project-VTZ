@@ -3,7 +3,7 @@ import Spacer from "@/components/Universal/Spacer/Spacer";
 import Page from "@/components/Page/Page";
 import Text from "@/components/Universal/Text/Text";
 import './create-documentation.css';
-import { Input, Flex } from 'antd';
+import { Input } from 'antd';
 import Button from "@/components/Universal/Button/Button";
 import CheckBoxButton from "@/app/edit-documentation/components/check-box-button";
 
