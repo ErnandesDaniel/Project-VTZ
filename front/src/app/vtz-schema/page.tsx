@@ -25,11 +25,11 @@ export default function VtzSchema() {
 
     const {initialVtzNodesList, initialVtzEdgesList}=useInitialVTZNodeElements();
 
-    const [fullDisplay, setFullDisplay]=useState<boolean>(true);
-
-    const fullDisplayOnChange=useCallback((event)=>{
-        setFullDisplay(event.target.value=='show');
-    },[setFullDisplay]);
+    // const [fullDisplay, setFullDisplay]=useState<boolean>(true);
+    //
+    // const fullDisplayOnChange=useCallback((event)=>{
+    //     setFullDisplay(event.target.value=='show');
+    // },[setFullDisplay]);
 
     const fullDisplayOptions = [
         { label: 'Полный режим', value: 'show' },
@@ -108,15 +108,15 @@ export default function VtzSchema() {
 
         <Spacer space={20} />
 
-        <RadioGroup
-            className='radio-group'
-            block
-            options={fullDisplayOptions}
-            defaultValue="show"
-            optionType="button"
-            buttonStyle="solid"
-            onChange={fullDisplayOnChange}
-        />
+        {/*<RadioGroup*/}
+        {/*    className='radio-group'*/}
+        {/*    block*/}
+        {/*    options={fullDisplayOptions}*/}
+        {/*    defaultValue="show"*/}
+        {/*    optionType="button"*/}
+        {/*    buttonStyle="solid"*/}
+        {/*    onChange={fullDisplayOnChange}*/}
+        {/*/>*/}
 
         <Spacer space={20} />
 
