@@ -44,13 +44,14 @@ export default function VtzSchema() {
             'elk.spacing.nodeNode': '80',
             'elk.direction':'RIGHT',
         };
+
         const graph = {
             id: 'root',
             layoutOptions: elkOptions,
             children: nodes.map((node) => ({
                     ...node,
-                    width: node.type==='VtzGatewayNode'? 50 : 200,
-                    height: node.type==='VtzGatewayNode'? 50 : 100,
+                    width: node.type==='VtzGatewayNode'? 50 : 500,
+                    height: node.type==='VtzGatewayNode'? 50 : node.data.projectInstitutes.length*300,
                 })),
             edges: edges,
         };
