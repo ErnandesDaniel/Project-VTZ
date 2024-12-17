@@ -1,12 +1,26 @@
 .vtz-schema-page{
 
-
     .radio-group{
        width:300px;
-
     }
 
     .react_flow_container{
         height:calc(100% - 200px);
     }
+
+    .react-flow {
+        --xy-edge-stroke-selected-default:red;
+
+
+        .react-flow__edge.selected{
+
+            width:10px !important;
+        }
+
+    }
+
+
+
+
+
 }

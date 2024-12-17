@@ -10,7 +10,7 @@ interface VtzNodeProps{
     vtzNumber:number;
     documentation:string[];
     vtzName:string;
-    nodeType:'input'|'default'|'output'
+    nodeType:'input'|'default'|'output';
 }
 import clsx from "clsx"
 
