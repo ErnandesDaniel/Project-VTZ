@@ -44,7 +44,7 @@ export default function useInitialVTZNodeElements(){
         return [...VtzTaskNodesList, ...VtzGatewayNodesList];
 
         }
-        ,[vtzTaskList]);
+        ,[vtzGatewaysList, vtzTaskList]);
 
     // const initialVtzEdgesList=useMemo<{id:string; source:string;target:string}[]>(()=>vtzTaskList.flatMap(({successorRelations, id})=>{
     //         if(successorRelations.$values.length>0){
@@ -62,12 +62,12 @@ export default function useInitialVTZNodeElements(){
     const initialVtzEdgesList=useMemo<{id:string; source:string;target:string}[]>(()=>vtzGatewaysList.flatMap(({predecessorIds, id, successorIds})=>{
         const predecessorEdges=predecessorIds.map((predecessorId)=>{
 
-            return { id: `${id}_${predecessorId}`, source: `${predecessorId}`, target: `${id}`, };
+            return { id: `${id}_${predecessorId}`, source: `${predecessorId}`, target: `${id}`, type: 'smoothstep' };
         });
 
         const successorEdges=successorIds.map((successorId)=>{
 
-        return { id: `${id}_${successorId}`, source: `${id}`, target: `${successorId}`, };
+        return { id: `${id}_${successorId}`, source: `${id}`, target: `${successorId}`, type: 'smoothstep' };
     });
 
         // if(successorRelations.$values.length>0){
@@ -81,7 +81,7 @@ export default function useInitialVTZNodeElements(){
 
     })
 
-        ,[vtzTaskList]);
+        ,[vtzGatewaysList]);
 
 
     return {initialVtzNodesList, initialVtzEdgesList}
