@@ -4,23 +4,25 @@ import Spacer from "@/components/Universal/Spacer/Spacer";
 import Page from "@/components/Page/Page";
 import {columns} from "@/app/vtz-table/table-columns";
 import {useVTZStore} from "@/store/store";
-import {useCallback, useMemo, useState} from "react";
+import React, {useCallback, useMemo, useState} from "react";
+import Header from "@/components/Header/Header";
 
 const VTZTable = () => {
 
     const{vtzTaskList, deleteVTZ}= useVTZStore();
 
     const vtzTableList=useMemo(()=>
-            vtzTaskList.map(({taskNumber, taskName, practices, sections})=>{
+            vtzTaskList.map(({taskNumber, taskName, practices, sections, id, isVisible})=>{
                 return{
-                    key: taskNumber,
+                    key: id,
                     VTZ_number:taskNumber,
                     VTZ_type:taskName,
                     isDeleted:false,
                     project_institutes:practices.$values.map(({practiceShortName})=>practiceShortName),
                     documentation: sections.$values.map(({sectionName})=>sectionName),
+                    isVisible:isVisible,
                 }
-            })
+            }).filter(({isVisible})=>isVisible)
         ,[vtzTaskList]);
 
     const [activeTabName, setActiveTabName] = useState("all"); // Состояние для фильтров
@@ -49,17 +51,17 @@ const VTZTable = () => {
                 />,
             },
 
-            {
-                
-                label: 'Без связей',
-                key: 'no-links',
-                children:<Table
-                    className="vtz-table"
-                    dataSource={filteredData}
-                    columns={columns(deleteVTZ)}
-                    scroll={{ y: 500 }}
-                />,
-            },
+            // {
+            //
+            //     label: 'Без связей',
+            //     key: 'no-links',
+            //     children:<Table
+            //         className="vtz-table"
+            //         dataSource={filteredData}
+            //         columns={columns(deleteVTZ)}
+            //         scroll={{ y: 500 }}
+            //     />,
+            // },
 
             {
                 
@@ -87,6 +89,7 @@ const VTZTable = () => {
 
     return (
         <Page>
+            <Header />
             <Spacer space={10} />
             <div className="vtz-table-wrapper" style={{ marginLeft: "20px" }}>
                 <Tabs items={tabs} onChange={onChangeActiveTab} />

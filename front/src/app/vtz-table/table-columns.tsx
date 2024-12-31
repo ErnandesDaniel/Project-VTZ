@@ -1,5 +1,6 @@
 import { Checkbox, Flex } from 'antd';
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import Link from "next/link";
 export const columns=(deleteVTZ) => [
 
     {
@@ -83,11 +84,12 @@ export const columns=(deleteVTZ) => [
     {
         title: 'Редактировать',
         dataIndex: 'edit',
-        render: () =>
-            ( <Flex justify='center'>
-                <EditOutlined style={{cursor:'pointer', fontSize:'22px'}} />
-            </Flex>)
-
+        render: (_, record) =>
+            (<Link href={`/edit-vtz`} key={record.key}>
+                <Flex justify='center'>
+                    <EditOutlined style={{cursor:'pointer', fontSize:'22px'}} />
+                </Flex>
+            </Link>)
     },
 
     {

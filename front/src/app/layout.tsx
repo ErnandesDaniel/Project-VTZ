@@ -18,7 +18,6 @@ export default function RootLayout({ children }: React.PropsWithChildren){
     <Flex className='app'>
       <SideFilters />
       <div className='app_content'>
-        <Header />
         <AntdRegistry>{children}</AntdRegistry>
       </div>
       </Flex>

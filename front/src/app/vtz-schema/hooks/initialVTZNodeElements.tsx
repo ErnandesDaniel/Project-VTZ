@@ -18,6 +18,7 @@ export default function useInitialVTZNodeElements(){
                             projectInstitutes: practices.$values.map(({practiceShortName}) => practiceShortName),
                             fullDisplay: true,
                             vtzNumber:taskNumber,
+                            isVisible:isVisible,
                             documentation: sections.$values.map(({sectionName}) => sectionName),
                             vtzName: taskName,
                             //nodeType: 'input'

@@ -1,5 +1,6 @@
 import { Checkbox, Flex } from 'antd';
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import Link from "next/link";
 export const columns = [
 
     {
@@ -39,9 +40,12 @@ export const columns = [
         dataIndex: 'edit',
 
         render: (_: any, record) =>
-            ( <Flex justify='center'>
-                <EditOutlined style={{cursor:'pointer', fontSize:'22px'}} />
-            </Flex>)
+            (
+                <Link href={`/edit-documentation`} key={record.key}>
+                    <Flex justify='center'>
+                        <EditOutlined style={{cursor:'pointer', fontSize:'22px'}} />
+                    </Flex>
+                </Link>)
 
     },
 

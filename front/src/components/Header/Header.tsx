@@ -9,9 +9,7 @@ export default function Header() {
     return (
    <Flex className='header'>
        <Search placeholder='Поиск ВТЗ...' className='search'/>
-       <Button  title='Добавить ВТЗ' width={150} height={30}/>
-
-
+       <Button  title='Найти ВТЗ' width={150} height={30}/>
    </Flex>
     )
 }

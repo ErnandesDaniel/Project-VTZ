@@ -42,7 +42,7 @@ export default function VtzSchema() {
             'elk.algorithm': 'layered',
             'elk.layered.spacing.nodeNodeBetweenLayers': '100',
             'elk.spacing.nodeNode': '80',
-            'elk.direction':'LEFT',
+            'elk.direction':'RIGHT',
         };
 
         const graph = {

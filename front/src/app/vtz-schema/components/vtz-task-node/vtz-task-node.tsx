@@ -23,7 +23,8 @@ export default function VtzTaskNode({data}:VtzNodeProps) {
         vtzNumber,
         documentation,
         vtzName,
-        nodeType
+        nodeType,
+        isVisible
     }=data;
 
     const projectInstituteBackgroundColors={
@@ -34,7 +35,7 @@ export default function VtzTaskNode({data}:VtzNodeProps) {
     }
 
     return(
-        <div className='vtz-node'>
+        <div className={clsx('vtz-node', {isVisible: !isVisible})}>
             <ConditionalRender condition={nodeType== 'default' || nodeType== 'output'}>
                 <Handle
                     type="target"

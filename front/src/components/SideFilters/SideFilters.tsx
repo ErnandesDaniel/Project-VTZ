@@ -9,14 +9,18 @@ import ChoiceOrAnd from "@/components/SideFilters/components/choice-or-and/choic
 import Button from "@/components/Universal/Button/Button";
 
 import Link from 'next/link';
-import {useMemo} from "react";
+import {useCallback, useMemo, useState} from "react";
 import {useVTZStore} from "@/store/store";
-
 
 export default function SideFilters() {
 
-    const{vtzTaskList, vtzDocumentationList}= useVTZStore();
+    const{vtzTaskList, vtzDocumentationList, checkInstitutes, setCheckInstitutes, loadVTZTasksWithFilters}= useVTZStore();
 
+    const onClick=useCallback(()=>{
+        loadVTZTasksWithFilters();
+    },[loadVTZTasksWithFilters]);
+    
+    
     const vtzSearchList=useMemo(()=>
             vtzTaskList.map(({taskNumber, taskName})=>{
                 return{
@@ -59,7 +63,22 @@ export default function SideFilters() {
         { text:'РД' },
         { text:'ВАБ-1' },
         { text:'Анализы' },
-    ]
+    ];
+
+    const[institutes, setInstitutes]=useState([]);
+
+    const onChangeInstitutes=useCallback((text, event)=>{
+        if(event.target.checked){
+            setCheckInstitutes([...checkInstitutes,text]);
+        }else{
+            setCheckInstitutes(checkInstitutes.filter((el)=>el!==text));
+        }
+    },[checkInstitutes, setCheckInstitutes]);
+
+
+
+
+
 
     return (
         <Flex className='side-filters' vertical>
@@ -93,7 +112,7 @@ export default function SideFilters() {
                 {institutesFilters.map(({text}) => <Checkbox key={text} style={{
                     fontSize: '14px',
                     fontFamily: 'Montserrat, sans-serif'
-                }}>{text}</Checkbox>)}
+                }} onChange={(event)=>onChangeInstitutes(text, event)}>{text}</Checkbox>)}
 
                 <Spacer space={40}/>
 
@@ -139,11 +158,13 @@ export default function SideFilters() {
 
             <Spacer space={20}/>
 
-            <Button title='Применить' width={150} height={40} backgroundColor="#6CACE4"/>
-
-
-
-
+            <Button
+                title='Применить'
+                width={150}
+                height={40}
+                backgroundColor="#6CACE4"
+                onClick={onClick}
+            />
 
         </Flex>
     )
@@ -198,23 +219,4 @@ filterSort={(optionA, optionB) =>
 
         {text:'Задания без связей', href:''},
         {text:'Удаленные задания', href:''},
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 */
