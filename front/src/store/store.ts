@@ -12,11 +12,14 @@ interface VTZStore {
     loadVTZDocumentation: Dispatch<[]>;
     authToken:string;
     loadVTZTasksWithFilters: Dispatch<[]>;
+    checkInstitutes:any[];
+    setCheckInstitutes: Dispatch<[]>;
+    deleteVTZ: any;
 }
 
 export const useVTZStore = create<VTZStore>()((set, get) => ({
     checkInstitutes:[],
-    setCheckInstitutes:(value)=>{
+    setCheckInstitutes:(value:any)=>{
         console.log(value);
         set({checkInstitutes: value});
     },
@@ -73,7 +76,7 @@ export const useVTZStore = create<VTZStore>()((set, get) => ({
     vtzGatewaysList:[],
     vtzTaskList: [],
 
-    deleteVTZ: async (deleteVTZId) => {
+    deleteVTZ: async (deleteVTZId:any) => {
         const {authToken}=get();
         console.log('Улаление ВТЗ');
         console.log(authToken);

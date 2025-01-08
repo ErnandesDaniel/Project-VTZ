@@ -1,9 +1,7 @@
 "use client"
 import Page from "@/components/Page/Page";
 import './vtz-schema.css';
-
 import '@xyflow/react/dist/style.css';
-
 import {Radio} from 'antd';
 import {Controls, ReactFlow} from '@xyflow/react';
 import VtzTaskNode from "@/app/vtz-schema/components/vtz-task-node/vtz-task-node";
@@ -13,7 +11,8 @@ import {useCallback, useEffect, useState} from "react";
 import useInitialVTZNodeElements from "@/app/vtz-schema/hooks/initialVTZNodeElements";
 import ELK from 'elkjs/lib/elk.bundled.js';
 import VtzGatewayNode from "@/app/vtz-schema/components/vtz-gateway-node/vtz-gateway-node";
-
+import VtzEdge from "@/app/vtz-schema/components/vtz-edge/vtz-edge";
+import {useVTZSchemaStore} from "@/app/vtz-schema/store/store";
 const {Group:RadioGroup}=Radio;
 
 const nodeTypes = {
@@ -21,9 +20,31 @@ const nodeTypes = {
     VtzGatewayNode:VtzGatewayNode,
 };
 
+const edgeTypes={
+    VtzEdge:VtzEdge,
+}
+
+const defaultViewport = { x: 0, y: 0, zoom: 0.1 };
+const minZoom=0.01
+const maxZoom=3
+
 export default function VtzSchema() {
 
+    const {setSelectedEdgeId}=useVTZSchemaStore();
     const {initialVtzNodesList, initialVtzEdgesList}=useInitialVTZNodeElements();
+    
+    useEffect(() => {
+        const keyDownHandler = (event:any) => {
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                setSelectedEdgeId(undefined);
+            }
+        };
+        document.addEventListener('keydown', keyDownHandler);
+        return () => {
+            document.removeEventListener('keydown', keyDownHandler);
+        };
+    }, [setSelectedEdgeId]);
 
     // const [fullDisplay, setFullDisplay]=useState<boolean>(true);
     //
@@ -36,7 +57,7 @@ export default function VtzSchema() {
         { label: 'Сжатый режим', value: 'unshow' },
     ];
 
-    const getLayoutedElements = useCallback((nodes, edges) => {
+    const getLayoutedElements = useCallback(async (nodes:any, edges:any) => {
         const elk = new ELK();
         const elkOptions = {
             'elk.algorithm': 'layered',
@@ -48,17 +69,18 @@ export default function VtzSchema() {
         const graph = {
             id: 'root',
             layoutOptions: elkOptions,
-            children: nodes.map((node) => ({
+            children: nodes.map((node:any) => ({
                     ...node,
-                    width: node.type==='VtzGatewayNode'? 50 : 500,
-                    height: node.type==='VtzGatewayNode'? 50 : node.data.projectInstitutes.length*300,
+                    width: node.type==='VtzGatewayNode'? 50 : 200,
+                    height: node.type==='VtzGatewayNode'? 50 : 200,
                 })),
             edges: edges,
         };
+
         return elk
             .layout(graph)
             .then((layoutedGraph) => ({
-                nodes: layoutedGraph.children?.map((node) => ({
+                nodes: layoutedGraph.children?.map((node:any) => ({
                     data:node.data,
                     id:node.id,
                     type:node.type,
@@ -69,9 +91,9 @@ export default function VtzSchema() {
             .catch((e)=>console.log(e));
     },[]);
 
-    const [layoutedNodes, setLayoutedNodes]=useState([]);
+    const [layoutedNodes, setLayoutedNodes]=useState<any>([]);
 
-    const [layoutedEdges, setLayoutedEdges]=useState([]);
+    const [layoutedEdges, setLayoutedEdges]=useState<any>([]);
 
     useEffect(()=>{
 
@@ -104,6 +126,7 @@ export default function VtzSchema() {
     //     elkOptions
     // );
 
+
     return(<Page className='vtz-schema-page'>
 
         <Spacer space={20} />
@@ -126,8 +149,17 @@ export default function VtzSchema() {
             nodes={layoutedNodes}
             edges={layoutedEdges}
             nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
             fitView
+            //panOnScroll
+            selectionOnDrag
             style={{ backgroundColor: "#F7F9FB" }}
+            defaultViewport={defaultViewport}
+            minZoom={minZoom}
+            maxZoom={maxZoom}
+            onEdgeClick={(_, edge)=>{
+                setSelectedEdgeId(edge.id);
+            }}
         >
             <Controls />
         </ReactFlow>

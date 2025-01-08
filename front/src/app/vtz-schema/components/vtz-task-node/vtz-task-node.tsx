@@ -1,21 +1,23 @@
-
 import { Handle, Position } from '@xyflow/react';
 import './vtz-task-node.css';
 import { Flex } from 'antd';
 import ConditionalRender from "@/components/Universal/ConditionalRender/ConditionalRender";
+import { NodeProps, Node } from '@xyflow/react';
+type VtzNodeProps = Node<
+    {
+        projectInstitutes:('СПбПИ'| 'СТО'| 'НПИ'| 'МПИ')[];
+        fullDisplay:boolean;
+        vtzNumber:number;
+        documentation:string[];
+        vtzName:string;
+        nodeType:'input'|'default'|'output';
+        isVisible?:boolean;
+    }
+>;
 
-interface VtzNodeProps{
-    projectInstitutes:string[];
-    fullDisplay:boolean;
-    vtzNumber:number;
-    documentation:string[];
-    vtzName:string;
-    nodeType:'input'|'default'|'output';
-}
 import clsx from "clsx"
 
-
-export default function VtzTaskNode({data}:VtzNodeProps) {
+export default function VtzTaskNode(props: NodeProps<VtzNodeProps>) {
 
     const{
         projectInstitutes,
@@ -25,7 +27,7 @@ export default function VtzTaskNode({data}:VtzNodeProps) {
         vtzName,
         nodeType,
         isVisible
-    }=data;
+    }=props.data;
 
     const projectInstituteBackgroundColors={
         'СПбПИ':'#F3B937',
@@ -42,23 +44,22 @@ export default function VtzTaskNode({data}:VtzNodeProps) {
                     position={Position.Left}
                 />
             </ConditionalRender>
-            <Flex className={clsx('content',{several_project_institutes:projectInstitutes.length>1})} gap={10} vertical>
-                {projectInstitutes.map((projectInstitute, projectIndex)=>{
-                    return (
-                        <Flex className='vtz-description-block' key={projectIndex} gap={7} vertical>
-                            <div className='project-institute' style={{background:projectInstituteBackgroundColors[projectInstitute]}}>{projectInstitute}</div>
-                            <div className='vtz-number-and-name'>{`${vtzNumber}. ${vtzName}`}</div>
-                            <ConditionalRender condition={fullDisplay}>
-                                {
-                                    documentation.map((documentationString, documentationIndex) => {
-                                        return (<div className='documentation-element'
-                                                     key={`${projectIndex}_${documentationIndex}`}>{documentationString}</div>);
-                                    })
-                                }
-                            </ConditionalRender>
-                        </Flex>
-                    )
-                })}
+            <Flex className='content' vertical gap={7}>
+                <Flex className='project-institutes-block'>
+                    {projectInstitutes.map((projectInstitute, projectIndex,projectInstituteArray )=> {
+                        return (<div className={clsx('project-institute', {several_project_institutes:projectInstitutes.length>1})} key={projectIndex} style={{background: projectInstituteBackgroundColors[projectInstitute]}}>{projectInstitute}</div>)
+                    })}
+                </Flex>
+                <div className='vtz-number-and-name'>{`${vtzNumber}. ${vtzName}`}</div>
+                <ConditionalRender condition={fullDisplay}>
+                    <div className={clsx('documentation_elements_block', 'nowheel')}>
+                        {
+                        documentation.map((documentationString, documentationIndex) => {
+                            return (<div className='documentation-element' key={`${documentationIndex}`}>{documentationString}</div>);
+                        })
+                    }
+                    </div>
+                </ConditionalRender>
             </Flex>
             <ConditionalRender condition={nodeType== 'default' || nodeType== 'input'}>
                 <Handle

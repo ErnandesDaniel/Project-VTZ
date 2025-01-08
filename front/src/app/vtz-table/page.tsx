@@ -12,14 +12,14 @@ const VTZTable = () => {
     const{vtzTaskList, deleteVTZ}= useVTZStore();
 
     const vtzTableList=useMemo(()=>
-            vtzTaskList.map(({taskNumber, taskName, practices, sections, id, isVisible})=>{
+            vtzTaskList.map(({taskNumber, taskName, practices, sections, id, isVisible}:any)=>{
                 return{
                     key: id,
                     VTZ_number:taskNumber,
                     VTZ_type:taskName,
                     isDeleted:false,
-                    project_institutes:practices.$values.map(({practiceShortName})=>practiceShortName),
-                    documentation: sections.$values.map(({sectionName})=>sectionName),
+                    project_institutes:practices.$values.map(({practiceShortName}:any)=>practiceShortName),
+                    documentation: sections.$values.map(({sectionName}:any)=>sectionName),
                     isVisible:isVisible,
                 }
             }).filter(({isVisible})=>isVisible)

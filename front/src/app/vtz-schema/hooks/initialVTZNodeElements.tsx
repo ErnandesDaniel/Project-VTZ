@@ -1,6 +1,6 @@
 import {useVTZStore} from "@/store/store";
 import {useMemo} from "react";
-import VtzGatewayNode from "@/app/vtz-schema/components/vtz-gateway-node/vtz-gateway-node";
+import {MarkerType} from "@xyflow/react";
 
 
 export default function useInitialVTZNodeElements(){
@@ -9,17 +9,17 @@ export default function useInitialVTZNodeElements(){
 
     const initialVtzNodesList=useMemo(()=>{
 
-        const VtzTaskNodesList= vtzTaskList.map(({taskNumber, taskName, practices, sections, isVisible, id}, index)=>{
+        const VtzTaskNodesList= vtzTaskList.map(({taskNumber, taskName, practices, sections, isVisible, id}:any, index)=>{
                 if(isVisible){
                     return{
                         id: `${id}`,
                         type: 'VtzTaskNode',
                         data: {
-                            projectInstitutes: practices.$values.map(({practiceShortName}) => practiceShortName),
+                            projectInstitutes: practices.$values.map(({practiceShortName}:any) => practiceShortName),
                             fullDisplay: true,
                             vtzNumber:taskNumber,
                             isVisible:isVisible,
-                            documentation: sections.$values.map(({sectionName}) => sectionName),
+                            documentation: sections.$values.map(({sectionName}:any) => sectionName),
                             vtzName: taskName,
                             //nodeType: 'input'
                             nodeType: 'default'
@@ -60,16 +60,27 @@ export default function useInitialVTZNodeElements(){
 
 
 
-    const initialVtzEdgesList=useMemo<{id:string; source:string;target:string}[]>(()=>vtzGatewaysList.flatMap(({predecessorIds, id, successorIds})=>{
-        const predecessorEdges=predecessorIds.map((predecessorId)=>{
+    const initialVtzEdgesList=useMemo<{id:string; source:string; target:string}[]>(()=>vtzGatewaysList.flatMap(({predecessorIds, id, successorIds}:any)=>{
 
-            return { id: `${id}_${predecessorId}`, source: `${predecessorId}`, target: `${id}`, type: 'smoothstep' };
+        const predecessorEdges=predecessorIds.map((predecessorId:any)=>{
+            return {
+                id: `${id}_${predecessorId}`,
+                source: `${predecessorId}`,
+                target: `${id}`,
+                type: 'VtzEdge',
+                animated: true,
+            };
         });
 
-        const successorEdges=successorIds.map((successorId)=>{
-
-        return { id: `${id}_${successorId}`, source: `${id}`, target: `${successorId}`, type: 'smoothstep' };
-    });
+        const successorEdges=successorIds.map((successorId:any)=>{
+            return {
+                id: `${id}_${successorId}`,
+                source: `${id}`,
+                target: `${successorId}`,
+                type:'VtzEdge',
+                animated: true,
+            };
+        });
 
         // if(successorRelations.$values.length>0){
         //         return successorRelations.$values.map((successorRelation)=>{

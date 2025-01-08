@@ -9,9 +9,6 @@
     }
 
     .react-flow {
-        --xy-edge-stroke-selected-default:red;
-
-
         .react-flow__edge.selected{
 
             width:10px !important;

@@ -1,12 +1,12 @@
 import { Checkbox, Flex } from 'antd';
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import Link from "next/link";
-export const columns=(deleteVTZ) => [
+export const columns=(deleteVTZ:any) => [
 
     {
         title: '№',
         dataIndex: 'VTZ_number',
-        sorter: (a, b) => a.key - b.key,
+        sorter: (a:any, b:any) => a.key - b.key,
         defaultSortOrder: 'ascend',
     },
 
@@ -17,9 +17,9 @@ export const columns=(deleteVTZ) => [
     {
         title: 'Проектные институты',
         dataIndex: 'project_institutes',
-        render: (institutes: any, record) => {
+        render: (institutes: any, record:any) => {
             return <Flex justify='left' wrap>
-                {institutes.map((institute, index)=> {
+                {institutes.map((institute:any, index:any)=> {
 
                     let color='#F3B937'
 
@@ -62,8 +62,8 @@ export const columns=(deleteVTZ) => [
         title: 'Документация',
         dataIndex: 'documentation',
 
-        render: (documentation: any, record) => (<Flex justify='center' vertical style={{minHeight:'100px'}}>
-                {documentation.map((docs, index)=><p key={`${record.VTZ_number}_${index}__${docs}`}>{docs}</p>)}
+        render: (documentation: any, record:any) => (<Flex justify='center' vertical style={{minHeight:'100px'}}>
+                {documentation.map((docs:any, index:any)=><p key={`${record.VTZ_number}_${index}__${docs}`}>{docs}</p>)}
             </Flex>)
 
 
@@ -73,7 +73,7 @@ export const columns=(deleteVTZ) => [
     {
         title: 'Удалено',
         dataIndex: 'isDeleted',
-        render: (_, record) =>
+        render: (_:any, record:any) =>
             ( <Flex justify='center'>
             <Checkbox checked={record.isDeleted} />
             </Flex>)
@@ -84,7 +84,7 @@ export const columns=(deleteVTZ) => [
     {
         title: 'Редактировать',
         dataIndex: 'edit',
-        render: (_, record) =>
+        render: (_:any, record:any) =>
             (<Link href={`/edit-vtz`} key={record.key}>
                 <Flex justify='center'>
                     <EditOutlined style={{cursor:'pointer', fontSize:'22px'}} />
@@ -95,7 +95,7 @@ export const columns=(deleteVTZ) => [
     {
         title: 'Удалить',
         dataIndex: 'delete',
-        render: (_, record) =>(
+        render: (_:any, record:any) =>(
             <Flex justify='center'>
             <DeleteOutlined style={{cursor:'pointer', fontSize:'22px'}} onClick={()=>{deleteVTZ(record.key)}} />
         </Flex>)
