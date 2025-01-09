@@ -1,7 +1,5 @@
 import {useVTZStore} from "@/store/store";
 import {useMemo} from "react";
-import {MarkerType} from "@xyflow/react";
-
 
 export default function useInitialVTZNodeElements(){
 
@@ -21,13 +19,9 @@ export default function useInitialVTZNodeElements(){
                             isVisible:isVisible,
                             documentation: sections.$values.map(({sectionName}:any) => sectionName),
                             vtzName: taskName,
-                            //nodeType: 'input'
                             nodeType: 'default'
 
                         },
-
-                        //position: { x: Math.floor(Math.random() * 20000), y: Math.floor(Math.random() * 1000) }
-                        //position: { x: 400*index, y: 300 }
                         position: { x: 0, y: 0 }
                     } ;
                 }
@@ -46,19 +40,6 @@ export default function useInitialVTZNodeElements(){
 
         }
         ,[vtzGatewaysList, vtzTaskList]);
-
-    // const initialVtzEdgesList=useMemo<{id:string; source:string;target:string}[]>(()=>vtzTaskList.flatMap(({successorRelations, id})=>{
-    //         if(successorRelations.$values.length>0){
-    //             return successorRelations.$values.map((successorRelation)=>{
-    //                 return { id: `${id}_${successorRelation}`, source: `${id}`, target: `${successorRelation}`, };
-    //             });
-    //         }
-    //         return [];
-    //     })
-    //
-    //     ,[vtzTaskList]);
-
-
 
     const initialVtzEdgesList=useMemo<{id:string; source:string; target:string}[]>(()=>vtzGatewaysList.flatMap(({predecessorIds, id, successorIds}:any)=>{
 
@@ -81,13 +62,6 @@ export default function useInitialVTZNodeElements(){
                 animated: true,
             };
         });
-
-        // if(successorRelations.$values.length>0){
-        //         return successorRelations.$values.map((successorRelation)=>{
-        //             return { id: `${id}_${successorRelation}`, source: `${id}`, target: `${successorRelation}`, };
-        //         });
-        //     }
-        //     return [];
 
         return [...predecessorEdges, ...successorEdges]
 
