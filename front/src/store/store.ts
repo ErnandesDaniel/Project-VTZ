@@ -7,11 +7,12 @@ interface VTZStore {
     vtzTaskList:[];
     vtzGatewaysList: [];
     vtzDocumentationList: [];
-    loadVTZTasks: Dispatch<[]>;
-    loadVTZGateways: Dispatch<[]>;
-    loadVTZDocumentation: Dispatch<[]>;
+    loadVTZTasks: any;
+    loadVTZGateways: any;
+    loadVTZDocumentation: any;
     authToken:string;
     deleteVTZ: any;
+    getAuthToken:any;
 }
 
 export const useVTZStore = create<VTZStore>()((set, get) => ({

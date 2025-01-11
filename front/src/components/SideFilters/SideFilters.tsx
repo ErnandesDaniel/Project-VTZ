@@ -87,7 +87,11 @@ export default function SideFilters() {
     };
 
     const onClick=useCallback(async ()=>{
-        setCheckedInstitutes(checkedInstitutes);
+        if(checkedInstitutes?.includes('Общая практика')){
+            setCheckedInstitutes(['СПбПИ', 'СТО', 'МПИ', 'НПИ']);
+        }else{
+            setCheckedInstitutes(checkedInstitutes);
+        }
         setCheckedInstitutesOrAnd(checkedInstitutesOrAnd);
         setCheckedDocumentationType(checkedDocumentationType);
         setCheckedDocumentationTypeOrAnd(checkedDocumentationTypeOrAnd);

@@ -20,8 +20,6 @@ const VTZTable = () => {
         checkedVTZ
     }=useSideFiltersStore();
 
-    //console.log('vtzTaskList', vtzTaskList)
-
     const vtzTableList=useMemo(()=>
             vtzTaskList.map(({taskNumber, taskName, practices, sections, id, isVisible}:any)=>{
                 return{
@@ -41,15 +39,38 @@ const VTZTable = () => {
     // Фильтрация данных на основе выбранного фильтра
     const filteredData = useMemo(()=>{
         let tabVTZ=vtzTableList.filter((vtzItem) => {
-                if (activeTabName === "deleted") return vtzItem.isDeleted;
-                return true; // "all" — показываем все
-            });
+           if (activeTabName === "deleted"){
+               return vtzItem.isDeleted;
+           }else{
+               return true; // "all" — показываем все
+           }
+        });
+
+        if(checkedInstitutes?.length>0){
+            if(checkedInstitutesOrAnd=='and'){
+                tabVTZ=tabVTZ.filter(
+                    ({project_institutes}:{project_institutes:string[]})=>
+                        project_institutes.length==checkedInstitutes?.length &&
+                        project_institutes.every(project_institute => checkedInstitutes.includes(project_institute))
+                );
+            }else if(checkedInstitutesOrAnd=='or'){
+
+                tabVTZ=tabVTZ.filter(
+                    ({project_institutes}:{project_institutes:string[]})=>
+                        project_institutes.some(project_institute => checkedInstitutes.includes(project_institute))
+                );
+            }
+        }
+
         if(checkedDocumentationType?.length>0){
             if(checkedDocumentationTypeOrAnd=='and'){
                 tabVTZ=tabVTZ.filter(
-                    ({documentation}:{documentation:string[]})=>
-                        documentation.every(docs => checkedDocumentationType.some((docsType)=>
-                            docs.includes(docsType)))
+                    ({documentation}:{documentation:string[]})=>{
+                        const shortDocumentationSet=new Set(documentation.map((el)=>el.substring(0, 2)));
+                        const shortCheckedDocumentationType=checkedDocumentationType.map((el)=>el.substring(0, 2)).sort();
+                        const shortDocumentation=Array.from(shortDocumentationSet).sort();
+                        return JSON.stringify(shortDocumentation)==JSON.stringify(shortCheckedDocumentationType);
+                    }
                 );
             }else if(checkedDocumentationTypeOrAnd=='or'){
                 tabVTZ=tabVTZ.filter(
@@ -58,22 +79,6 @@ const VTZTable = () => {
                             docs.includes(docsType)))
                 );
             }
-        }
-
-
-        if(checkedInstitutes?.length>0){
-                if(checkedInstitutesOrAnd=='and'){
-                    tabVTZ=tabVTZ.filter(
-                        ({project_institutes}:{project_institutes:string[]})=>
-                            project_institutes.every(docs => checkedInstitutes.includes(docs))
-                    );
-                }else if(checkedInstitutesOrAnd=='or'){
-
-                    tabVTZ=tabVTZ.filter(
-                        ({project_institutes}:{project_institutes:string[]})=>
-                            project_institutes.some(docs => checkedInstitutes.includes(docs))
-                    );
-                }
         }
 
         if(checkedDocumentation?.length>0){
@@ -140,7 +145,7 @@ const VTZTable = () => {
 
     const onChangeActiveTab = useCallback(
         (activeTabKey: number) => {
-            const activeTab = tabs.find(({ key }) => key == activeTabKey);
+            const activeTab = tabs.find(({ key }) => key == String(activeTabKey));
             setActiveTabName(`${activeTab?.key}`);
         },
         [tabs]
