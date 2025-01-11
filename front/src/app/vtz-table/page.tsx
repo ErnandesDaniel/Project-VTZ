@@ -5,7 +5,6 @@ import Page from "@/components/Page/Page";
 import {columns} from "@/app/vtz-table/table-columns";
 import {useVTZStore} from "@/store/store";
 import React, {useCallback, useMemo, useState} from "react";
-import Header from "@/components/Header/Header";
 
 const VTZTable = () => {
 
@@ -30,7 +29,6 @@ const VTZTable = () => {
     // Фильтрация данных на основе выбранного фильтра
     const filteredData = useMemo(()=>{
             return vtzTableList.filter((vtzItem) => {
-                if (activeTabName === "no-links") return true;
                 if (activeTabName === "deleted") return vtzItem.isDeleted;
                 return true; // "all" — показываем все
             });
@@ -51,18 +49,6 @@ const VTZTable = () => {
                 />,
             },
 
-            // {
-            //
-            //     label: 'Без связей',
-            //     key: 'no-links',
-            //     children:<Table
-            //         className="vtz-table"
-            //         dataSource={filteredData}
-            //         columns={columns(deleteVTZ)}
-            //         scroll={{ y: 500 }}
-            //     />,
-            // },
-
             {
                 
                 label: 'Удаленные',
@@ -81,7 +67,7 @@ const VTZTable = () => {
 
     const onChangeActiveTab = useCallback(
         (activeTabKey: number) => {
-            const activeTab = tabs.find(({ key }) => key === activeTabKey);
+            const activeTab = tabs.find(({ key }) => key == activeTabKey);
             setActiveTabName(`${activeTab?.key}`);
         },
         [tabs]
@@ -89,7 +75,6 @@ const VTZTable = () => {
 
     return (
         <Page>
-            <Header />
             <Spacer space={10} />
             <div className="vtz-table-wrapper" style={{ marginLeft: "20px" }}>
                 <Tabs items={tabs} onChange={onChangeActiveTab} />

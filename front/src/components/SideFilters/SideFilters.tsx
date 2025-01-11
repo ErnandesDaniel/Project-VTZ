@@ -11,13 +11,19 @@ import Button from "@/components/Universal/Button/Button";
 import Link from 'next/link';
 import {useCallback, useMemo, useState} from "react";
 import {useVTZStore} from "@/store/store";
+import {useSideFiltersStore} from "@/components/SideFilters/store/store";
 
 export default function SideFilters() {
 
-    const{vtzTaskList, vtzDocumentationList, checkInstitutes, setCheckInstitutes, loadVTZTasksWithFilters}= useVTZStore();
+    const{vtzTaskList, vtzDocumentationList, loadVTZTasksWithFilters}= useVTZStore();
+    const {checkedInstitutes, setCheckedInstitutes}=useSideFiltersStore();
 
-    const onClick=useCallback(()=>{
-        loadVTZTasksWithFilters();
+    const onClick=useCallback(async ()=>{
+
+
+
+
+
     },[loadVTZTasksWithFilters]);
     
     
@@ -67,13 +73,13 @@ export default function SideFilters() {
 
     const[institutes, setInstitutes]=useState([]);
 
-    const onChangeInstitutes=useCallback((text, event)=>{
+    const onChangeInstitutes=useCallback((text:any, event:any)=>{
         if(event.target.checked){
-            setCheckInstitutes([...checkInstitutes,text]);
+            setCheckedInstitutes([...checkedInstitutes,text]);
         }else{
-            setCheckInstitutes(checkInstitutes.filter((el)=>el!==text));
+            setCheckedInstitutes(checkedInstitutes.filter((el)=>el!==text));
         }
-    },[checkInstitutes, setCheckInstitutes]);
+    },[checkedInstitutes, setCheckedInstitutes]);
 
 
 
@@ -108,6 +114,17 @@ export default function SideFilters() {
 
                 <ChoiceOrAnd title='Проектный институт'/>
                 <Spacer space={20}/>
+
+
+                <Checkbox.Group options={institutesFilters.map(({text})=>text)} defaultValue={['СПбПИ']}
+
+                style={{
+                    fontSize: '14px',
+                    fontFamily: 'Montserrat, sans-serif'
+                }}
+
+                />
+
 
                 {institutesFilters.map(({text}) => <Checkbox key={text} style={{
                     fontSize: '14px',
@@ -169,54 +186,3 @@ export default function SideFilters() {
         </Flex>
     )
 }
-
-
-/*
-
-
-filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                }
-
-
-
-
-                <div className="Documentation_row">
-                    <div className="Documentation">Документация</div>
-                    <div className="check-box_and">и</div>
-                    <div className="check-box_or">или</div>
-                </div>
-
-                <div className="Chack-box_Doc">
-                    <input type="checkbox"/>
-                    <div className="Doc">ПД</div>
-                </div>
-                <div className="Chack-box_Doc">
-                    <input type="checkbox"/>
-                    <div className="Doc">РД</div>
-                </div>
-                <div className="Chack-box_Doc">
-                    <input type="checkbox"/>
-                    <div className="Doc">ВАБ-1</div>
-                </div>
-                <div className="Chack-box_Doc">
-                    <input type="checkbox"/>
-                    <div className="Doc">Анализы</div>
-                </div>
-
-                <div className="Chapter_Doc_row">
-                    <div className="Chapter">Раздел документации</div>
-                    <div className="check-box_and">и</div>
-                    <div className="check-box_or">или</div>
-                </div>
-
-                <input placeholder="Выберите раздел документации"/>
-                <div className="Filtr_vtz">Фильтр по ВТЗ</div>
-                <input placeholder="Выберите ВТЗ"/>
-                <div className="button_3">Применить</div>
-
-
-
-        {text:'Задания без связей', href:''},
-        {text:'Удаленные задания', href:''},
-*/

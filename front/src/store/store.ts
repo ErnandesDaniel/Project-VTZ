@@ -11,7 +11,7 @@ interface VTZStore {
     loadVTZGateways: Dispatch<[]>;
     loadVTZDocumentation: Dispatch<[]>;
     authToken:string;
-    loadVTZTasksWithFilters: Dispatch<[]>;
+    loadVTZTasksWithFilters: ()=>Promise<void>;
     checkInstitutes:any[];
     setCheckInstitutes: Dispatch<[]>;
     deleteVTZ: any;

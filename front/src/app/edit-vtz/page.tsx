@@ -9,10 +9,10 @@ import { Checkbox } from "antd";
 import Button from "@/components/Universal/Button/Button";
 import CheckBoxButton from "@/app/create-vtz/components/check-box-button";
 import { PlusSquareOutlined, DeleteOutlined } from '@ant-design/icons';
+import Link from "next/link";
 
-export default function edit_VTZ() {
-
-
+export default function Edit_VTZ() {
+    
     const projectInstitutes = ['СТО', 'СПбПИ', 'МПИ', 'НПИ', 'Общая практика'];
 
     return (
@@ -146,9 +146,9 @@ export default function edit_VTZ() {
             </Flex>
 
             <Spacer space={40}/>
-            <Flex gap={40}>
-                <Button title='Создать' width={150} height={35}/>
-                <Button type='default' title='Назад к списку' width={150} height={35} backgroundColor="white"/>
+            <Flex gap={20}>
+                <Button title='Сохранить изменения' width={200} height={35}/>
+                <Button type='default' width={150} height={35} backgroundColor="white" title={<Link href="/vtz-table">Назад к списку</Link>}/>
             </Flex>
 
 

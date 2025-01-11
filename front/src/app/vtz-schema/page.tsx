@@ -151,7 +151,6 @@ export default function VtzSchema() {
             nodeTypes={nodeTypes}
             edgeTypes={edgeTypes}
             fitView
-            //panOnScroll
             selectionOnDrag
             style={{ backgroundColor: "#F7F9FB" }}
             defaultViewport={defaultViewport}

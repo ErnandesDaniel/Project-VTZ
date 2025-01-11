@@ -6,19 +6,17 @@ export const columns=(deleteVTZ:any) => [
     {
         title: '№',
         dataIndex: 'VTZ_number',
-        sorter: (a:any, b:any) => a.key - b.key,
-        defaultSortOrder: 'ascend',
     },
 
     {
-        title: 'Вид ВТЗ',
+        title: 'Название ВТЗ',
         dataIndex: 'VTZ_type',
     },
     {
         title: 'Проектные институты',
         dataIndex: 'project_institutes',
         render: (institutes: any, record:any) => {
-            return <Flex justify='left' wrap>
+            return <Flex justify='space-evenly' wrap>
                 {institutes.map((institute:any, index:any)=> {
 
                     let color='#F3B937'
@@ -73,6 +71,7 @@ export const columns=(deleteVTZ:any) => [
     {
         title: 'Удалено',
         dataIndex: 'isDeleted',
+        width:90,
         render: (_:any, record:any) =>
             ( <Flex justify='center'>
             <Checkbox checked={record.isDeleted} />
@@ -84,6 +83,7 @@ export const columns=(deleteVTZ:any) => [
     {
         title: 'Редактировать',
         dataIndex: 'edit',
+        width:150,
         render: (_:any, record:any) =>
             (<Link href={`/edit-vtz`} key={record.key}>
                 <Flex justify='center'>
@@ -95,6 +95,7 @@ export const columns=(deleteVTZ:any) => [
     {
         title: 'Удалить',
         dataIndex: 'delete',
+        width:90,
         render: (_:any, record:any) =>(
             <Flex justify='center'>
             <DeleteOutlined style={{cursor:'pointer', fontSize:'22px'}} onClick={()=>{deleteVTZ(record.key)}} />

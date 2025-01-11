@@ -15,12 +15,13 @@ export default function FormButton({
     backgroundColor,
     onClick,
     }:{
-    title:string;
+    title: any;
     type?:any;
     height?: number;
     htmlType?:any;
     className?:string;
     block?:boolean;
+    size?:any;
     width?:number;
     fontSize?:number;
     backgroundColor?: string;
