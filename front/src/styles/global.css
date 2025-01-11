@@ -52,6 +52,7 @@
     .documentation-table-wrapper, .vtz-table-wrapper {
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень: горизонтальная, вертикальная, размытие, прозрачность */
         margin-bottom: 20px; /* Отступ снизу, чтобы тень была видна */
+        max-width:1160px !important;
     }
 
     /* Переопределяем стандартный стиль для кнопки */

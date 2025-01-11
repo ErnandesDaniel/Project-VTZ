@@ -11,30 +11,10 @@ interface VTZStore {
     loadVTZGateways: Dispatch<[]>;
     loadVTZDocumentation: Dispatch<[]>;
     authToken:string;
-    loadVTZTasksWithFilters: ()=>Promise<void>;
-    checkInstitutes:any[];
-    setCheckInstitutes: Dispatch<[]>;
     deleteVTZ: any;
 }
 
 export const useVTZStore = create<VTZStore>()((set, get) => ({
-    checkInstitutes:[],
-    setCheckInstitutes:(value:any)=>{
-        console.log(value);
-        set({checkInstitutes: value});
-    },
-
-    loadVTZTasksWithFilters: async ()=>{
-
-        const {checkInstitutes}=get();
-        let urlWithData='';
-        checkInstitutes.map((value, index)=>{
-            urlWithData=urlWithData+`&PracticeShortNames=${value}`;
-        });
-        const response = await apiInstance.get(`/TaskVTZ/GetAll?withData=${true}&PracticeShortNamesOr=true${urlWithData}`);
-        console.log(response.data?.value.$values);
-        set({vtzTaskList: response.data?.value.$values});
-    },
 
     loadVTZTasks: async ()=>{
         const {vtzTaskList}=get();

@@ -7,8 +7,6 @@
     background: #fff;
     overflow: visible; /* Убедитесь, что тень не обрезается */
 
-
-
     .links-list{
         .link-element{
             width: 250px;
@@ -60,8 +58,6 @@
         background-color: #fff; /* Белый фон */
     }
 
-
-
     .filters-container::-webkit-scrollbar {
         width: 5px;               /* ширина scrollbar */
     }
@@ -73,10 +69,19 @@
         border-radius: 20px;       /* закругления плашки */
     }
 
+    .ant-form-item{
+        margin-bottom:5px;
+    }
 
+    .ant-checkbox-group{
+        display: flex;
+        flex-direction: column;
 
-
-
+        .ant-checkbox-wrapper>span:last-child{
+            font-size: 14px;
+            font-family: Arial, serif;
+        }
+    }
 
     .side-filters::after {
         content: ''; /* Псевдоэлемент для границы */

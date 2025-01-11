@@ -3,49 +3,28 @@ import "./SideFilters.css";
 import Spacer from "@/components/Universal/Spacer/Spacer";
 import AtomIconSVG from "./atomenergoproject.svg";
 import Image from 'next/image';
-import { Flex, Select } from "antd";
+import { Flex, Select, Form } from "antd";
 import { Checkbox } from "antd";
 import ChoiceOrAnd from "@/components/SideFilters/components/choice-or-and/choice-or-and";
 import Button from "@/components/Universal/Button/Button";
-
 import Link from 'next/link';
-import {useCallback, useMemo, useState} from "react";
+import {useCallback} from "react";
 import {useVTZStore} from "@/store/store";
 import {useSideFiltersStore} from "@/components/SideFilters/store/store";
 
 export default function SideFilters() {
 
-    const{vtzTaskList, vtzDocumentationList, loadVTZTasksWithFilters}= useVTZStore();
-    const {checkedInstitutes, setCheckedInstitutes}=useSideFiltersStore();
+    const{vtzTaskList, vtzDocumentationList}= useVTZStore();
 
-    const onClick=useCallback(async ()=>{
-
-
-
-
-
-    },[loadVTZTasksWithFilters]);
-    
-    
-    const vtzSearchList=useMemo(()=>
-            vtzTaskList.map(({taskNumber, taskName})=>{
-                return{
-                    id: taskNumber,
-                    text:taskName,
-                }
-            })
-        ,[vtzTaskList]);
-
-
-    const vtzDocumentationSearchList=useMemo(()=>
-            vtzDocumentationList?.map(({id, sectionName})=>{
-                return{
-                    id: id,
-                    text:sectionName,
-                }
-            })
-        ,[vtzDocumentationList]);
-
+    const {
+        setCheckedInstitutes,
+        setCheckedInstitutesOrAnd,
+        setCheckedDocumentationType,
+        setCheckedDocumentationTypeOrAnd,
+        setCheckedDocumentation,
+        setCheckedDocumentationOrAnd,
+        setCheckedVTZ
+    }=useSideFiltersStore();
 
     const pagesLinks=[
         {text:'Схема ВТЗ', href:'vtz-schema'},
@@ -71,20 +50,65 @@ export default function SideFilters() {
         { text:'Анализы' },
     ];
 
-    const[institutes, setInstitutes]=useState([]);
+    const [form] = Form.useForm();
 
-    const onChangeInstitutes=useCallback((text:any, event:any)=>{
-        if(event.target.checked){
-            setCheckedInstitutes([...checkedInstitutes,text]);
-        }else{
-            setCheckedInstitutes(checkedInstitutes.filter((el)=>el!==text));
-        }
-    },[checkedInstitutes, setCheckedInstitutes]);
+    const {
+        checkedInstitutes,
+        checkedInstitutesOrAnd,
+        checkedDocumentationType,
+        checkedDocumentationTypeOrAnd,
+        checkedDocumentation,
+        checkedDocumentationOrAnd,
+        checkedVTZ
+    } = Form.useWatch(({
+        checkedInstitutes,
+        checkedInstitutesOrAnd,
+        checkedDocumentationType,
+        checkedDocumentationTypeOrAnd,
+        checkedDocumentation,
+        checkedDocumentationOrAnd,
+        checkedVTZ
+    }) => ({
+        checkedInstitutes,
+        checkedInstitutesOrAnd,
+        checkedDocumentationType,
+        checkedDocumentationTypeOrAnd,
+        checkedDocumentation,
+        checkedDocumentationOrAnd,
+        checkedVTZ
+    }), form) ?? {
+        checkedInstitutes: undefined,
+        checkedInstitutesOrAnd:'or',
+        checkedDocumentationType: undefined,
+        checkedDocumentationTypeOrAnd:'or',
+        checkedDocumentation: undefined,
+        checkedDocumentationOrAnd:'or',
+        checkedVTZ: undefined
+    };
 
+    const onClick=useCallback(async ()=>{
+        setCheckedInstitutes(checkedInstitutes);
+        setCheckedInstitutesOrAnd(checkedInstitutesOrAnd);
+        setCheckedDocumentationType(checkedDocumentationType);
+        setCheckedDocumentationTypeOrAnd(checkedDocumentationTypeOrAnd);
+        setCheckedDocumentation(checkedDocumentation);
+        setCheckedDocumentationOrAnd(checkedDocumentationOrAnd);
+        setCheckedVTZ(checkedVTZ);
 
-
-
-
+    },[checkedDocumentation,
+        checkedDocumentationOrAnd,
+        checkedDocumentationType,
+        checkedDocumentationTypeOrAnd,
+        checkedInstitutes,
+        checkedInstitutesOrAnd,
+        checkedVTZ,
+        setCheckedDocumentation,
+        setCheckedDocumentationOrAnd,
+        setCheckedDocumentationType,
+        setCheckedDocumentationTypeOrAnd,
+        setCheckedInstitutes,
+        setCheckedInstitutesOrAnd,
+        setCheckedVTZ]);
 
     return (
         <Flex className='side-filters' vertical>
@@ -110,79 +134,66 @@ export default function SideFilters() {
 
             <Spacer space={10}/>
 
-            <div className="filters-container">
+            <Form form={form} layout="vertical" onFinish={onClick}>
 
-                <ChoiceOrAnd title='Проектный институт'/>
+                <div className="filters-container">
+
+                <Form.Item name='checkedInstitutesOrAnd' initialValue={'or'}>
+                    <ChoiceOrAnd title='Проектный институт'/>
+                </Form.Item>
+
+                <Form.Item name='checkedInstitutes'>
+                    <Checkbox.Group options={institutesFilters.map(({text})=>text)} />
+                </Form.Item>
+
+
+                <Form.Item name='checkedDocumentationTypeOrAnd' initialValue={'or'}>
+                    <ChoiceOrAnd title='Документация'/>
+                </Form.Item>
+
+
+                <Form.Item name='checkedDocumentationType'>
+                    <Checkbox.Group options={documentsFilters.map(({text})=>text)} />
+                </Form.Item >
+
+                <Form.Item name='checkedDocumentationOrAnd' initialValue={'or'}>
+                    <ChoiceOrAnd title='Раздел документации'/>
+                </Form.Item>
+
+                <Form.Item name='checkedDocumentation'>
+                    <Select
+                        showSearch
+                        placeholder="Выберите раздел документации"
+                        optionFilterProp="label"
+                        options={vtzDocumentationList?.map(({sectionName})=>{
+                            return{ value: sectionName, label:sectionName }
+                        })}
+                        mode="multiple"
+                    />
+                </Form.Item>
+
+                <Form.Item name='checkedVTZ' label={<div className='VTZ-filter'>Фильтр по ВТЗ</div>}>
+                    <Select
+                        showSearch
+                        placeholder="Выберите ВТЗ"
+                        optionFilterProp="label"
+                        options={vtzTaskList.map(({id, taskName})=>{
+                            return{ value: id, label: taskName,}
+                        })}
+                        mode="multiple"
+
+                    />
+                </Form.Item>
+                </div>
                 <Spacer space={20}/>
-
-
-                <Checkbox.Group options={institutesFilters.map(({text})=>text)} defaultValue={['СПбПИ']}
-
-                style={{
-                    fontSize: '14px',
-                    fontFamily: 'Montserrat, sans-serif'
-                }}
-
+                <Button
+                    title='Применить'
+                    width={150}
+                    height={40}
+                    backgroundColor="#6CACE4"
+                    htmlType="submit"
                 />
-
-
-                {institutesFilters.map(({text}) => <Checkbox key={text} style={{
-                    fontSize: '14px',
-                    fontFamily: 'Montserrat, sans-serif'
-                }} onChange={(event)=>onChangeInstitutes(text, event)}>{text}</Checkbox>)}
-
-                <Spacer space={40}/>
-
-                <ChoiceOrAnd title='Документация'/>
-                <Spacer space={20}/>
-
-                {documentsFilters.map(({text}) => <Checkbox key={text} style={{
-                    fontSize: '14px',
-                    fontFamily: 'Montserrat, sans-serif'
-                }}>{text}</Checkbox>)}
-
-
-                <Spacer space={40}/>
-
-                <ChoiceOrAnd title='Раздел документации'/>
-
-                <Spacer space={10}/>
-
-                <Select
-                    showSearch
-                    placeholder="Выберите раздел документации"
-                    optionFilterProp="label"
-                    options={vtzDocumentationSearchList?.map(({text, id}) => {
-                        return {value: id, label: text}
-                    })}
-                />
-
-                <Spacer space={40}/>
-
-                <div className='VTZ-filter'>Фильтр по ВТЗ</div>
-
-                <Spacer space={10}/>
-
-                <Select
-                    showSearch
-                    placeholder="Выберите ВТЗ"
-                    optionFilterProp="label"
-                    options={vtzSearchList?.map(({text, id}) => {
-                        return {value: id, label: text}
-                    })}
-                />
-            </div>
-
-            <Spacer space={20}/>
-
-            <Button
-                title='Применить'
-                width={150}
-                height={40}
-                backgroundColor="#6CACE4"
-                onClick={onClick}
-            />
-
+            </Form>
         </Flex>
     )
 }
