@@ -1,7 +1,7 @@
 import {Dispatch} from 'react';
 
 import { create } from 'zustand';
-import apiInstance from "@/lib/apiInstance";
+import apiInstance from "@/utils/apiInstance";
 
 interface VTZSchemaStore {
     selectedEdgeId?:string;

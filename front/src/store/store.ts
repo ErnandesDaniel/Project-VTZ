@@ -1,7 +1,5 @@
-import {Dispatch} from 'react';
-
 import { create } from 'zustand';
-import apiInstance from "@/lib/apiInstance";
+import apiInstance from "@/utils/apiInstance";
 
 interface VTZStore {
     vtzTaskList:[];
@@ -13,9 +11,16 @@ interface VTZStore {
     authToken:string;
     deleteVTZ: any;
     getAuthToken:any;
+    setFilteredVTZ:any;
+    filteredVTZ:any[];
 }
 
 export const useVTZStore = create<VTZStore>()((set, get) => ({
+
+    filteredVTZ:[],
+    setFilteredVTZ:(newValue:any[])=>{
+        set({filteredVTZ:newValue})
+    },
 
     loadVTZTasks: async ()=>{
         const {vtzTaskList}=get();

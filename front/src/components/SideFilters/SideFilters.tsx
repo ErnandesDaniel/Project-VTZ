@@ -8,24 +8,16 @@ import { Checkbox } from "antd";
 import ChoiceOrAnd from "@/components/SideFilters/components/choice-or-and/choice-or-and";
 import Button from "@/components/Universal/Button/Button";
 import Link from 'next/link';
-import {useCallback} from "react";
+import {useCallback, useEffect} from "react";
 import {useVTZStore} from "@/store/store";
-import {useSideFiltersStore} from "@/components/SideFilters/store/store";
+import {useFilteredVTZ} from "@/utils/filteredVTZ";
 
 export default function SideFilters() {
 
     const{vtzTaskList, vtzDocumentationList}= useVTZStore();
-
-    const {
-        setCheckedInstitutes,
-        setCheckedInstitutesOrAnd,
-        setCheckedDocumentationType,
-        setCheckedDocumentationTypeOrAnd,
-        setCheckedDocumentation,
-        setCheckedDocumentationOrAnd,
-        setCheckedVTZ
-    }=useSideFiltersStore();
-
+    
+    const { setFilteredVTZStoreData }=useFilteredVTZ();
+    
     const pagesLinks=[
         {text:'Схема ВТЗ', href:'vtz-schema'},
         {text:'Задания', href:'vtz-table'},
@@ -86,18 +78,34 @@ export default function SideFilters() {
         checkedVTZ: undefined
     };
 
+    useEffect(() => {
+        setFilteredVTZStoreData({
+            checkedInstitutes: undefined,
+            checkedInstitutesOrAnd:'or',
+            checkedDocumentationType: undefined,
+            checkedDocumentationTypeOrAnd:'or',
+            checkedDocumentation: undefined,
+            checkedDocumentationOrAnd:'or',
+            checkedVTZ: undefined
+        });
+    }, [setFilteredVTZStoreData]);
+    
+    
     const onClick=useCallback(async ()=>{
+
+       let localCheckedInstitutes=checkedInstitutes;
+        
         if(checkedInstitutes?.includes('Общая практика')){
-            setCheckedInstitutes(['СПбПИ', 'СТО', 'МПИ', 'НПИ']);
-        }else{
-            setCheckedInstitutes(checkedInstitutes);
+            localCheckedInstitutes=['СПбПИ', 'СТО', 'МПИ', 'НПИ'];
         }
-        setCheckedInstitutesOrAnd(checkedInstitutesOrAnd);
-        setCheckedDocumentationType(checkedDocumentationType);
-        setCheckedDocumentationTypeOrAnd(checkedDocumentationTypeOrAnd);
-        setCheckedDocumentation(checkedDocumentation);
-        setCheckedDocumentationOrAnd(checkedDocumentationOrAnd);
-        setCheckedVTZ(checkedVTZ);
+
+        setFilteredVTZStoreData({checkedInstitutes:localCheckedInstitutes,
+            checkedInstitutesOrAnd,
+            checkedDocumentationType,
+            checkedDocumentationTypeOrAnd,
+            checkedDocumentation,
+            checkedDocumentationOrAnd,
+            checkedVTZ});
 
     },[checkedDocumentation,
         checkedDocumentationOrAnd,
@@ -106,13 +114,8 @@ export default function SideFilters() {
         checkedInstitutes,
         checkedInstitutesOrAnd,
         checkedVTZ,
-        setCheckedDocumentation,
-        setCheckedDocumentationOrAnd,
-        setCheckedDocumentationType,
-        setCheckedDocumentationTypeOrAnd,
-        setCheckedInstitutes,
-        setCheckedInstitutesOrAnd,
-        setCheckedVTZ]);
+        setFilteredVTZStoreData
+        ]);
 
     return (
         <Flex className='side-filters' vertical>
