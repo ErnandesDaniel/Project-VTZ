@@ -6,12 +6,12 @@ import { NodeProps, Node } from '@xyflow/react';
 type VtzNodeProps = Node<
     {
         projectInstitutes:('СПбПИ'| 'СТО'| 'НПИ'| 'МПИ')[];
-        fullDisplay:boolean;
         vtzNumber:number;
         documentation:string[];
         vtzName:string;
         nodeType:'input'|'default'|'output';
         isVisible?:boolean;
+        isDeleted:boolean;
     }
 >;
 
@@ -21,12 +21,12 @@ export default function VtzTaskNode(props: NodeProps<VtzNodeProps>) {
 
     const{
         projectInstitutes,
-        fullDisplay,
         vtzNumber,
         documentation,
         vtzName,
         nodeType,
-        isVisible
+        isVisible,
+        isDeleted
     }=props.data;
 
     const projectInstituteBackgroundColors={
@@ -45,13 +45,13 @@ export default function VtzTaskNode(props: NodeProps<VtzNodeProps>) {
                 />
             </ConditionalRender>
             <Flex className='content' vertical gap={7}>
+                isVisible:{String(isVisible)}
                 <Flex className='project-institutes-block'>
                     {projectInstitutes.map((projectInstitute, projectIndex,projectInstituteArray )=> {
                         return (<div className={clsx('project-institute', {several_project_institutes:projectInstitutes.length>1})} key={projectIndex} style={{background: projectInstituteBackgroundColors[projectInstitute]}}>{projectInstitute}</div>)
                     })}
                 </Flex>
                 <div className='vtz-number-and-name'>{`${vtzNumber}. ${vtzName}`}</div>
-                <ConditionalRender condition={fullDisplay}>
                     <div className={clsx('documentation_elements_block', 'nowheel')}>
                         {
                         documentation.map((documentationString, documentationIndex) => {
@@ -59,7 +59,6 @@ export default function VtzTaskNode(props: NodeProps<VtzNodeProps>) {
                         })
                     }
                     </div>
-                </ConditionalRender>
             </Flex>
             <ConditionalRender condition={nodeType== 'default' || nodeType== 'input'}>
                 <Handle

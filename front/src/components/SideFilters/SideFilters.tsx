@@ -10,7 +10,7 @@ import Button from "@/components/Universal/Button/Button";
 import Link from 'next/link';
 import {useCallback, useEffect} from "react";
 import {useVTZStore} from "@/store/store";
-import {useFilteredVTZ} from "@/utils/filteredVTZ";
+import {useFilteredVTZ} from "@/components/SideFilters/hooks/filteredVTZ";
 
 export default function SideFilters() {
 

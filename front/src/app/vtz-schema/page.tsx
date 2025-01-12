@@ -2,18 +2,15 @@
 import Page from "@/components/Page/Page";
 import './vtz-schema.css';
 import '@xyflow/react/dist/style.css';
-import {Radio} from 'antd';
 import {Controls, ReactFlow} from '@xyflow/react';
 import VtzTaskNode from "@/app/vtz-schema/components/vtz-task-node/vtz-task-node";
 import Spacer from "@/components/Universal/Spacer/Spacer";
 import {useCallback, useEffect, useState} from "react";
-
 import useInitialVTZNodeElements from "@/app/vtz-schema/hooks/initialVTZNodeElements";
 import ELK from 'elkjs/lib/elk.bundled.js';
 import VtzGatewayNode from "@/app/vtz-schema/components/vtz-gateway-node/vtz-gateway-node";
 import VtzEdge from "@/app/vtz-schema/components/vtz-edge/vtz-edge";
 import {useVTZSchemaStore} from "@/app/vtz-schema/store/store";
-const {Group:RadioGroup}=Radio;
 
 const nodeTypes = {
     VtzTaskNode: VtzTaskNode,
@@ -45,17 +42,6 @@ export default function VtzSchema() {
             document.removeEventListener('keydown', keyDownHandler);
         };
     }, [setSelectedEdgeId]);
-
-    // const [fullDisplay, setFullDisplay]=useState<boolean>(true);
-    //
-    // const fullDisplayOnChange=useCallback((event)=>{
-    //     setFullDisplay(event.target.value=='show');
-    // },[setFullDisplay]);
-
-    const fullDisplayOptions = [
-        { label: 'Полный режим', value: 'show' },
-        { label: 'Сжатый режим', value: 'unshow' },
-    ];
 
     const getLayoutedElements = useCallback(async (nodes:any, edges:any) => {
         const elk = new ELK();
@@ -123,51 +109,26 @@ export default function VtzSchema() {
         initialVtzEdgesList
     ]);
 
-
-    // const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-    //     initialVtzNodesList,
-    //     initialVtzEdgesList,
-    //     elkOptions
-    // );
-
-
     return(<Page className='vtz-schema-page'>
-
         <Spacer space={20} />
-
-        {/*<RadioGroup*/}
-        {/*    className='radio-group'*/}
-        {/*    block*/}
-        {/*    options={fullDisplayOptions}*/}
-        {/*    defaultValue="show"*/}
-        {/*    optionType="button"*/}
-        {/*    buttonStyle="solid"*/}
-        {/*    onChange={fullDisplayOnChange}*/}
-        {/*/>*/}
-
-        <Spacer space={20} />
-
         <div className='react_flow_container'>
-
-        <ReactFlow
-            nodes={layoutedNodes}
-            edges={layoutedEdges}
-            nodeTypes={nodeTypes}
-            edgeTypes={edgeTypes}
-            fitView
-            selectionOnDrag
-            style={{ backgroundColor: "#F7F9FB" }}
-            defaultViewport={defaultViewport}
-            minZoom={minZoom}
-            maxZoom={maxZoom}
-            onEdgeClick={(_, edge)=>{
-                setSelectedEdgeId(edge.id);
-            }}
-        >
-            <Controls />
-        </ReactFlow>
-
-
-            </div>
+            <ReactFlow
+                nodes={layoutedNodes}
+                edges={layoutedEdges}
+                nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
+                fitView
+                selectionOnDrag
+                style={{ backgroundColor: "#F7F9FB" }}
+                defaultViewport={defaultViewport}
+                minZoom={minZoom}
+                maxZoom={maxZoom}
+                onEdgeClick={(_, edge)=>{
+                    setSelectedEdgeId(edge.id);
+                }}
+            >
+                <Controls />
+            </ReactFlow>
+        </div>
     </Page>);
 }

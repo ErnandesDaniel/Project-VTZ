@@ -15,9 +15,9 @@ const VTZTable = () => {
     const filteredData = useMemo(()=>{
         return filteredVTZ.filter((vtzItem) => {
            if (activeTabName === "deleted"){
-               return vtzItem.isDeleted;
+               return vtzItem.isDeleted &&  vtzItem.isVisible;
            }else{
-               return true; // "all" — показываем все
+               return vtzItem.isVisible; // "all" — показываем все, которые доступны после использования фильтров
            }
         });
     },[activeTabName, filteredVTZ]);
