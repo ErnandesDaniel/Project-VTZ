@@ -10,11 +10,9 @@
     .links-list{
         .link-element{
             width: 250px;
-            height: 35px;
+            height: 25px;
             font-size: 16px;
             margin-bottom:0;
-
-
             display: flex;
             align-items: center;
             justify-content: left;
@@ -30,6 +28,11 @@
                 background-color: #6CACE4;
                 color: #FFFFFF;
             }
+        }
+
+        .active-link{
+            background-color: #6CACE4;
+            color: #FFFFFF;
         }
     }
 

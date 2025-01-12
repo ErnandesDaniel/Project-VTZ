@@ -46,6 +46,15 @@
             }
         }
 
+        .isDeleted{
+            padding-left: 15px;
+            padding-right: 15px;
+            font-size:20px;
+            display: flex;
+            justify-content: center;
+            color:red;
+        }
+
         .vtz-number-and-name{
             font-size:11px;
             padding-left:15px;
@@ -80,5 +89,5 @@
 }
 
 .isVisible{
-
+    opacity:40%;
 }

@@ -11,11 +11,15 @@ import Link from 'next/link';
 import {useCallback, useEffect} from "react";
 import {useVTZStore} from "@/store/store";
 import {useFilteredVTZ} from "@/components/SideFilters/hooks/filteredVTZ";
+import {useActivePath} from "@/utils/useIsActivePath";
+import clsx from "clsx";
 
 export default function SideFilters() {
 
+    const {isActivePath}=useActivePath();
+
     const{vtzTaskList, vtzDocumentationList}= useVTZStore();
-    
+
     const { setFilteredVTZStoreData }=useFilteredVTZ();
     
     const pagesLinks=[
@@ -127,17 +131,18 @@ export default function SideFilters() {
             />
             <Spacer space={50}/>
 
-            <div className="links-list">
+            <Flex className="links-list" vertical gap={10}>
                 {pagesLinks.map(({text, href}) =>
 
-                    <Link href={href} key={text} className='link-element'>
-                        {text}
-                    </Link>)}
-            </div>
+                    <Link href={href} key={text} className={clsx('link-element', {'active-link': isActivePath(href)})}>
+                {text}
+            </Link>
+            )}
+        </Flex>
 
-            <Spacer space={30}/>
+    <Spacer space={30}/>
 
-            <div className="filters_title">Фильтры</div>
+    <div className="filters_title">Фильтры</div>
 
             <Spacer space={10}/>
 

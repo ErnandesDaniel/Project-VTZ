@@ -16,7 +16,7 @@ export function useFilteredVTZ(){
     const{vtzTaskList, setFilteredVTZ}= useVTZStore();
     
     const vtzTableList=useMemo(()=>
-            vtzTaskList.map(({taskNumber, taskName, practices, sections, id}:any)=>{
+            vtzTaskList.map(({taskNumber, taskName, practices, sections, id, isDeleted}:any)=>{
                 return{
                     key: id,
                     VTZ_number:taskNumber,

@@ -3,8 +3,9 @@ import './vtz-task-node.css';
 import { Flex } from 'antd';
 import ConditionalRender from "@/components/Universal/ConditionalRender/ConditionalRender";
 import { NodeProps, Node } from '@xyflow/react';
-type VtzNodeProps = Node<
-    {
+import clsx from "clsx"
+
+type VtzNodeProps = Node<{
         projectInstitutes:('СПбПИ'| 'СТО'| 'НПИ'| 'МПИ')[];
         vtzNumber:number;
         documentation:string[];
@@ -12,10 +13,7 @@ type VtzNodeProps = Node<
         nodeType:'input'|'default'|'output';
         isVisible?:boolean;
         isDeleted:boolean;
-    }
->;
-
-import clsx from "clsx"
+    }>;
 
 export default function VtzTaskNode(props: NodeProps<VtzNodeProps>) {
 
@@ -45,12 +43,14 @@ export default function VtzTaskNode(props: NodeProps<VtzNodeProps>) {
                 />
             </ConditionalRender>
             <Flex className='content' vertical gap={7}>
-                isVisible:{String(isVisible)}
                 <Flex className='project-institutes-block'>
                     {projectInstitutes.map((projectInstitute, projectIndex,projectInstituteArray )=> {
                         return (<div className={clsx('project-institute', {several_project_institutes:projectInstitutes.length>1})} key={projectIndex} style={{background: projectInstituteBackgroundColors[projectInstitute]}}>{projectInstitute}</div>)
                     })}
                 </Flex>
+                <ConditionalRender condition={isDeleted}>
+                    <div className={clsx({isDeleted: isDeleted})}>ВТЗ было удалено</div>
+                </ConditionalRender>
                 <div className='vtz-number-and-name'>{`${vtzNumber}. ${vtzName}`}</div>
                     <div className={clsx('documentation_elements_block', 'nowheel')}>
                         {
