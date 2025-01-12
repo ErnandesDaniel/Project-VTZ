@@ -1,30 +1,31 @@
 import { Checkbox, Flex } from 'antd';
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import Link from "next/link";
 export const columns = [
 
     {
         title: '№',
-        dataIndex: 'Number',
+        dataIndex: 'key',
 
     },
 
     {
         title: 'Тип документации',
-        dataIndex: 'Stage',
+        dataIndex: 'shortName',
 
     },
 
 
     {
         title: 'Наименование',
-        dataIndex: 'Name',
+        dataIndex: 'name',
 
 
            },
 
     {
         title: 'Удалено',
-        dataIndex: 'deleted',
+        dataIndex: 'isDeleted',
 
         render: (_: any, record) =>
             ( <Flex justify='center'>
@@ -39,9 +40,12 @@ export const columns = [
         dataIndex: 'edit',
 
         render: (_: any, record) =>
-            ( <Flex justify='center'>
-                <EditOutlined style={{cursor:'pointer', fontSize:'22px'}} />
-            </Flex>)
+            (
+                <Link href={`/edit-documentation`} key={record.key}>
+                    <Flex justify='center'>
+                        <EditOutlined style={{cursor:'pointer', fontSize:'22px'}} />
+                    </Flex>
+                </Link>)
 
     },
 

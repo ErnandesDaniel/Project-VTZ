@@ -1,26 +1,68 @@
 "use client"
-import { Table } from "antd";
-import Spacer from "@/components/Universal/Spacer/Spacer";
+import { Table, Tabs } from "antd";
 import Page from "@/components/Page/Page";
 import {columns} from "@/app/vtz-table/table-columns";
-import {dataSource} from "@/app/vtz-table/table-mock-data";
+import {useVTZStore} from "@/store/store";
+import React, {useCallback, useMemo, useState} from "react";
+
 const VTZTable = () => {
-    const tableParams = {
-        pagination: {
-            pageSize: 3, // Настройка количества строк на странице
+
+    const{deleteVTZ, filteredVTZ}= useVTZStore();
+
+    const [activeTabName, setActiveTabName] = useState("all"); // Состояние для фильтров
+
+    // Фильтрация данных на основе выбранного фильтра
+    const filteredData = useMemo(()=>{
+        return filteredVTZ.filter((vtzItem) => {
+           if (activeTabName === "deleted"){
+               return vtzItem.isDeleted &&  vtzItem.isVisible;
+           }else{
+               return vtzItem.isVisible; // "all" — показываем все, которые доступны после использования фильтров
+           }
+        });
+    },[activeTabName, filteredVTZ]);
+    
+    const tabs=useMemo(()=>{
+        
+        return [
+            {
+                label:'Все ВТЗ',
+                key: 'all',
+                children:<Table
+                    className="vtz-table"
+                    dataSource={filteredData}
+                    columns={columns(deleteVTZ)}
+                    scroll={{ y: 500 }}
+                />,
+            },
+
+            {
+                label: 'Удаленные',
+                key: 'deleted',
+                children:<Table
+                    className="vtz-table"
+                    dataSource={filteredData}
+                    columns={columns(deleteVTZ)}
+                    scroll={{ y: 500 }}
+                />,
+            },
+        ];
+        
+        
+    },[deleteVTZ, filteredData])
+
+    const onChangeActiveTab = useCallback(
+        (activeTabKey: number) => {
+            const activeTab = tabs.find(({ key }) => key == String(activeTabKey));
+            setActiveTabName(`${activeTab?.key}`);
         },
-    };
+        [tabs]
+    );
 
     return (
         <Page>
-            <Spacer space={22} />
-            <div className="vtz-table-wrapper">
-                <Table
-                    className="vtz-table"
-                    dataSource={dataSource}
-                    columns={columns}
-                    pagination={tableParams.pagination}
-                />
+            <div className="vtz-table-wrapper" style={{ marginLeft: "20px" }}>
+                <Tabs items={tabs} onChange={onChangeActiveTab} />
             </div>
         </Page>
     );

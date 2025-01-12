@@ -16,3 +16,45 @@
 .input-text{
     max-width:300px;
 }
+
+.section-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 5px;
+    margin-left: 155px;
+}
+
+.section-tag {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-family: 'Montserrat', sans-serif;
+    color: #7F7F7F;
+    line-height: 1.5;
+}
+
+.section-tag span {
+    margin-right: 8px;
+    font-size: 13px;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: #7F7F7F;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.remove-btn:hover {
+    color: #d9363e;
+}
+
+.create-VTZ-page {
+    margin-left: 40px; /* Отодвигает всё вправо от меню */
+    padding-right: 20px; /* Добавляет отступ справа */
+}

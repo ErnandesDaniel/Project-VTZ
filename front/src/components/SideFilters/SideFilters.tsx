@@ -3,22 +3,31 @@ import "./SideFilters.css";
 import Spacer from "@/components/Universal/Spacer/Spacer";
 import AtomIconSVG from "./atomenergoproject.svg";
 import Image from 'next/image';
-import { Flex, Select } from "antd";
+import { Flex, Select, Form } from "antd";
 import { Checkbox } from "antd";
 import ChoiceOrAnd from "@/components/SideFilters/components/choice-or-and/choice-or-and";
 import Button from "@/components/Universal/Button/Button";
+import Link from 'next/link';
+import {useCallback, useEffect} from "react";
+import {useVTZStore} from "@/store/store";
+import {useFilteredVTZ} from "@/components/SideFilters/hooks/filteredVTZ";
+import {useActivePath} from "@/utils/useIsActivePath";
+import clsx from "clsx";
 
 export default function SideFilters() {
 
+    const {isActivePath}=useActivePath();
+
+    const{vtzTaskList, vtzDocumentationList}= useVTZStore();
+
+    const { setFilteredVTZStoreData }=useFilteredVTZ();
+    
     const pagesLinks=[
-        {text:'Схема ВТЗ', href:''},
-        {text:'Задания', href:''},
-        {text:'Задания без связей', href:''},
-        {text:'Удаленные задания', href:''},
-        {text:'Документация', href:''},
+        {text:'Схема ВТЗ', href:'vtz-schema'},
+        {text:'Задания', href:'vtz-table'},
+        {text:'Документация', href:'documentation-table'},
         {text:'Личный кабинет', href:''},
         {text:'История изменений', href:''},
-
     ]
 
     const institutesFilters=[
@@ -35,167 +44,168 @@ export default function SideFilters() {
         { text:'РД' },
         { text:'ВАБ-1' },
         { text:'Анализы' },
-    ]
-
-    const VTZ_List=[
-
-        {text:'Первое ВТЗ', id:1},
-        {text:'Второе ВТЗ', id:2},
-        {text:'Третье ВТЗ', id:3},
-        {text:'Четвертое ВТЗ', id:4},
-        {text:'Пятое ВТЗ', id:5},
-        {text:'Шестое ВТЗ', id:6},
-        {text:'Седьмое ВТЗ', id:7},
-        {text:'Восьмое ВТЗ', id:8},
-        {text:'Девятое ВТЗ', id:9},
-        {text:'Десятое ВТЗ', id:10},
-
     ];
 
-    const documentationList=[
+    const [form] = Form.useForm();
 
-        {text:'Первый раздел документации', id:1},
-        {text:'Второй раздел документации', id:2},
-        {text:'Третий раздел документации', id:3},
-        {text:'Четвертый раздел документации', id:4},
-        {text:'Пятый раздел документации', id:5},
-        {text:'Шестой раздел документации', id:6},
-        {text:'Седьмой раздел документации', id:7},
-        {text:'Восьмой раздел документации', id:8},
-        {text:'Девятый раздел документации', id:9},
-        {text:'Десятый раздел документации', id:10},
+    const {
+        checkedInstitutes,
+        checkedInstitutesOrAnd,
+        checkedDocumentationType,
+        checkedDocumentationTypeOrAnd,
+        checkedDocumentation,
+        checkedDocumentationOrAnd,
+        checkedVTZ
+    } = Form.useWatch(({
+        checkedInstitutes,
+        checkedInstitutesOrAnd,
+        checkedDocumentationType,
+        checkedDocumentationTypeOrAnd,
+        checkedDocumentation,
+        checkedDocumentationOrAnd,
+        checkedVTZ
+    }) => ({
+        checkedInstitutes,
+        checkedInstitutesOrAnd,
+        checkedDocumentationType,
+        checkedDocumentationTypeOrAnd,
+        checkedDocumentation,
+        checkedDocumentationOrAnd,
+        checkedVTZ
+    }), form) ?? {
+        checkedInstitutes: undefined,
+        checkedInstitutesOrAnd:'or',
+        checkedDocumentationType: undefined,
+        checkedDocumentationTypeOrAnd:'or',
+        checkedDocumentation: undefined,
+        checkedDocumentationOrAnd:'or',
+        checkedVTZ: undefined
+    };
 
-    ];
+    useEffect(() => {
+        setFilteredVTZStoreData({
+            checkedInstitutes: undefined,
+            checkedInstitutesOrAnd:'or',
+            checkedDocumentationType: undefined,
+            checkedDocumentationTypeOrAnd:'or',
+            checkedDocumentation: undefined,
+            checkedDocumentationOrAnd:'or',
+            checkedVTZ: undefined
+        });
+    }, [setFilteredVTZStoreData]);
+    
+    
+    const onClick=useCallback(async ()=>{
 
+       let localCheckedInstitutes=checkedInstitutes;
+        
+        if(checkedInstitutes?.includes('Общая практика')){
+            localCheckedInstitutes=['СПбПИ', 'СТО', 'МПИ', 'НПИ'];
+        }
 
+        setFilteredVTZStoreData({checkedInstitutes:localCheckedInstitutes,
+            checkedInstitutesOrAnd,
+            checkedDocumentationType,
+            checkedDocumentationTypeOrAnd,
+            checkedDocumentation,
+            checkedDocumentationOrAnd,
+            checkedVTZ});
 
+    },[checkedDocumentation,
+        checkedDocumentationOrAnd,
+        checkedDocumentationType,
+        checkedDocumentationTypeOrAnd,
+        checkedInstitutes,
+        checkedInstitutesOrAnd,
+        checkedVTZ,
+        setFilteredVTZStoreData
+        ]);
 
     return (
         <Flex className='side-filters' vertical>
+
             <Image
                 src={AtomIconSVG}
                 priority
                 alt="Follow us on Twitter"
             />
-            <Spacer space={20}/>
+            <Spacer space={50}/>
 
-            <div className="links-list">
-                {pagesLinks.map(({text}) => <div key={text} className='link-element'>
-                    {text}
-                </div>)}
-            </div>
+            <Flex className="links-list" vertical gap={10}>
+                {pagesLinks.map(({text, href}) =>
 
-            <Spacer space={25}/>
+                    <Link href={href} key={text} className={clsx('link-element', {'active-link': isActivePath(href)})}>
+                {text}
+            </Link>
+            )}
+        </Flex>
 
-            <div className="filters_title">Фильтры</div>
+    <Spacer space={30}/>
 
-            <Spacer space={20}/>
-
-            <ChoiceOrAnd title='Проектный институт'/>
-
-            {institutesFilters.map(({text}) => <Checkbox key={text}>{text}</Checkbox>)}
-
-            <Spacer space={20}/>
-
-            <ChoiceOrAnd title='Документация'/>
-
-            {documentsFilters.map(({text}) => <Checkbox key={text}>{text}</Checkbox>)}
-
+    <div className="filters_title">Фильтры</div>
 
             <Spacer space={10}/>
 
-            <ChoiceOrAnd title='Раздел документации'/>
+            <Form form={form} layout="vertical" onFinish={onClick}>
 
-            <Spacer space={10}/>
+                <div className="filters-container">
 
-            <Select
-                showSearch
-                placeholder="Выберите раздел документации"
-                optionFilterProp="label"
-                options={documentationList.map(({text, id})=>{return {value:id, label:text}})}
-            />
+                <Form.Item name='checkedInstitutesOrAnd' initialValue={'or'}>
+                    <ChoiceOrAnd title='Проектный институт'/>
+                </Form.Item>
 
-            <Spacer space={10}/>
+                <Form.Item name='checkedInstitutes'>
+                    <Checkbox.Group options={institutesFilters.map(({text})=>text)} />
+                </Form.Item>
 
-            <div className='VTZ-filter'>Фильтр по ВТЗ</div>
 
-            <Spacer space={10}/>
+                <Form.Item name='checkedDocumentationTypeOrAnd' initialValue={'or'}>
+                    <ChoiceOrAnd title='Документация'/>
+                </Form.Item>
 
-            <Select
-                showSearch
-                placeholder="Выберите ВТЗ"
-                optionFilterProp="label"
-                options={VTZ_List.map(({text, id})=>{return {value:id, label:text}})}
-            />
 
-            <Spacer space={10}/>
+                <Form.Item name='checkedDocumentationType'>
+                    <Checkbox.Group options={documentsFilters.map(({text})=>text)} />
+                </Form.Item >
 
-            <Button  title='Применить' width={100}/>
+                <Form.Item name='checkedDocumentationOrAnd' initialValue={'or'}>
+                    <ChoiceOrAnd title='Раздел документации'/>
+                </Form.Item>
 
-        </Flex>)
+                <Form.Item name='checkedDocumentation'>
+                    <Select
+                        showSearch
+                        placeholder="Выберите раздел документации"
+                        optionFilterProp="label"
+                        options={vtzDocumentationList?.map(({sectionName})=>{
+                            return{ value: sectionName, label:sectionName }
+                        })}
+                        mode="multiple"
+                    />
+                </Form.Item>
+
+                <Form.Item name='checkedVTZ' label={<div className='VTZ-filter'>Фильтр по ВТЗ</div>}>
+                    <Select
+                        showSearch
+                        placeholder="Выберите ВТЗ"
+                        optionFilterProp="label"
+                        options={vtzTaskList.map(({id, taskName})=>{
+                            return{ value: id, label: taskName,}
+                        })}
+                        mode="multiple"
+
+                    />
+                </Form.Item>
+                </div>
+                <Spacer space={20}/>
+                <Button
+                    title='Применить'
+                    width={150}
+                    height={40}
+                    backgroundColor="#6CACE4"
+                    htmlType="submit"
+                />
+            </Form>
+        </Flex>
+    )
 }
-
-
-/*
-
-
-                filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                }
-
-
-
-
-                <div className="Documentation_row">
-                    <div className="Documentation">Документация</div>
-                    <div className="check-box_and">и</div>
-                    <div className="check-box_or">или</div>
-                </div>
-
-                <div className="Chack-box_Doc">
-                    <input type="checkbox"/>
-                    <div className="Doc">ПД</div>
-                </div>
-                <div className="Chack-box_Doc">
-                    <input type="checkbox"/>
-                    <div className="Doc">РД</div>
-                </div>
-                <div className="Chack-box_Doc">
-                    <input type="checkbox"/>
-                    <div className="Doc">ВАБ-1</div>
-                </div>
-                <div className="Chack-box_Doc">
-                    <input type="checkbox"/>
-                    <div className="Doc">Анализы</div>
-                </div>
-
-                <div className="Chapter_Doc_row">
-                    <div className="Chapter">Раздел документации</div>
-                    <div className="check-box_and">и</div>
-                    <div className="check-box_or">или</div>
-                </div>
-
-                <input placeholder="Выберите раздел документации"/>
-                <div className="Filtr_vtz">Фильтр по ВТЗ</div>
-                <input placeholder="Выберите ВТЗ"/>
-                <div className="button_3">Применить</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*/

@@ -50,8 +50,35 @@
 
     /* Добавление тени под таблицами */
     .documentation-table-wrapper, .vtz-table-wrapper {
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Тень: горизонтальная, вертикальная, размытие, прозрачность */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень: горизонтальная, вертикальная, размытие, прозрачность */
         margin-bottom: 20px; /* Отступ снизу, чтобы тень была видна */
+        max-width:1160px !important;
+    }
+
+    /* Переопределяем стандартный стиль для кнопки */
+    .ant-btn-primary {
+        background-color: #025ea1;
+        color: white;
+        border-radius: 10px;
+        border: none;
+        align-items: center;
+    }
+
+    /* Стиль кнопки при наведении */
+    .ant-btn-primary:hover {
+        background-color: #014d80;
+    }
+
+    /* Стиль для других типов кнопок */
+    .ant-btn-default {
+        background-color: #f0f0f0;
+        color: #333;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .ant-btn-default:hover {
+        background-color: #e6e6e6;
     }
 
 }

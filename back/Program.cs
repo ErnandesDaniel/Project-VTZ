@@ -83,9 +83,20 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Конфигурируем CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+    });
+});
+
 // Добавляем контекст базы данных
 builder.Services.AddDbContext<ApplicationContext>(
-    options => options.UseNpgsql("Host=localhost;Username=postgres;Password=1331;Database=vtz")
+    options => options.UseNpgsql("Host=vtz-db-postgres;Username=postgres;Password=1331;Database=postgres")
 );
 
 // Добавляем AutoMapper
@@ -125,7 +136,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<ApplicationContext>();
-        context.Database.Migrate(); // Применяем миграции
+        //context.Database.Migrate(); // Применяем миграции
     }
     catch (Exception ex)
     {
@@ -133,6 +144,9 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "An error occurred while creating the database.");
     }
 }
+
+//Разрешаем в CORS-политике все запросы
+app.UseCors("AllowAll");
 
 // Настройка пайплайна запросов
 app.UseHttpsRedirection();
