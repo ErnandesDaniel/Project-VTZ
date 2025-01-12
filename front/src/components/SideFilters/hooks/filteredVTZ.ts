@@ -45,7 +45,7 @@ export function useFilteredVTZ(){
                 tabVTZ=tabVTZ.map((vtzItem)=>{
                         const { project_institutes }:{project_institutes:string[]}=vtzItem;
                         return {
-                            ...vtzItem, isVisible: project_institutes.length == checkedInstitutes?.length &&
+                            ...vtzItem, isVisible: vtzItem.isVisible && project_institutes.length == checkedInstitutes?.length &&
                                 project_institutes.every(project_institute => checkedInstitutes.includes(project_institute))
                         }
                     });
@@ -53,7 +53,7 @@ export function useFilteredVTZ(){
                 tabVTZ=tabVTZ.map((vtzItem)=>{
                     const { project_institutes }:{project_institutes:string[]}=vtzItem;
                     return {
-                        ...vtzItem, isVisible: project_institutes.some(project_institute => checkedInstitutes?.includes(project_institute))
+                        ...vtzItem, isVisible: vtzItem.isVisible && project_institutes.some(project_institute => checkedInstitutes?.includes(project_institute))
                     }
                 });
             }
@@ -67,14 +67,14 @@ export function useFilteredVTZ(){
                     const shortCheckedDocumentationType=checkedDocumentationType?.map((el)=>el.substring(0, 2)).sort();
                     const shortDocumentation=Array.from(shortDocumentationSet).sort();
                     return {
-                        ...vtzItem, isVisible: JSON.stringify(shortDocumentation)==JSON.stringify(shortCheckedDocumentationType)
+                        ...vtzItem, isVisible: vtzItem.isVisible && JSON.stringify(shortDocumentation)==JSON.stringify(shortCheckedDocumentationType)
                     }
                 });
             }else if(checkedDocumentationTypeOrAnd=='or'){
                 tabVTZ=tabVTZ.map((vtzItem)=>{
                     const {documentation}:{documentation:string[]}=vtzItem;
                     return {
-                        ...vtzItem, isVisible: documentation.some(docs => checkedDocumentationType?.some((docsType) =>
+                        ...vtzItem, isVisible: vtzItem.isVisible && documentation.some(docs => checkedDocumentationType?.some((docsType) =>
                             docs.includes(docsType)))
                     }
                 });
@@ -86,14 +86,14 @@ export function useFilteredVTZ(){
                 tabVTZ=tabVTZ.map((vtzItem)=>{
                     const {documentation}:{documentation:string[]}=vtzItem;
                     return {
-                        ...vtzItem, isVisible: documentation.every(docs => checkedDocumentation?.includes(docs))
+                        ...vtzItem, isVisible: vtzItem.isVisible && documentation.every(docs => checkedDocumentation?.includes(docs))
                     }
                 });
             }else if(checkedDocumentationOrAnd=='or'){
                 tabVTZ=tabVTZ.map((vtzItem)=>{
                     const {documentation}:{documentation:string[]}=vtzItem;
                     return {
-                        ...vtzItem, isVisible: documentation.some(docs => checkedDocumentation?.includes(docs))
+                        ...vtzItem, isVisible: vtzItem.isVisible && documentation.some(docs => checkedDocumentation?.includes(docs))
                     }
                 });
             }
@@ -103,7 +103,7 @@ export function useFilteredVTZ(){
             tabVTZ=tabVTZ.map((vtzItem)=>{
                 const {key}:{key:string}=vtzItem;
                 return {
-                    ...vtzItem, isVisible: checkedVTZ?.includes(key)
+                    ...vtzItem, isVisible: vtzItem.isVisible && checkedVTZ?.includes(key)
                 }
             })
         }
