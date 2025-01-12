@@ -1,8 +1,6 @@
 import {BaseEdge, EdgeLabelRenderer, EdgeProps, getSmoothStepPath, Position} from '@xyflow/react';
 import './vtz-edge.css';
 import {useVTZSchemaStore} from "@/app/vtz-schema/store/store";
-import {useEffect} from "react";
-
 
 export default function VtzEdge({id, sourceX, sourceY, targetX, targetY, selected}: EdgeProps) {
 
@@ -28,12 +26,6 @@ export default function VtzEdge({id, sourceX, sourceY, targetX, targetY, selecte
             strokeWidth:strokeWidth }} />
         </>);
 }
-
-// <div className={clsx('vtz-edge')}>
-//
-//
-// </div>
-//
 
 
 

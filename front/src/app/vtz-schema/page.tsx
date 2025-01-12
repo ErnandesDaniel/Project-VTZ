@@ -61,9 +61,13 @@ export default function VtzSchema() {
         const elk = new ELK();
         const elkOptions = {
             'elk.algorithm': 'layered',
-            'elk.layered.spacing.nodeNodeBetweenLayers': '100',
-            'elk.spacing.nodeNode': '80',
+            'elk.layered.spacing.nodeNodeBetweenLayers': '200',
+            'elk.spacing.edgeNode': '200',
             'elk.direction':'RIGHT',
+            "elk.layered.nodePlacement.favorStraightEdges": "false",
+            "elk.spacing.edgeEdge": "200",
+            "elk.edge.thickness": "200",
+            "elk.layered.considerModelOrder.strategy": "NODES_AND_EDGES"
         };
 
         const graph = {
