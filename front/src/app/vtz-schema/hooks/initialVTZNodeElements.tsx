@@ -3,7 +3,7 @@ import {useMemo} from "react";
 
 export default function useInitialVTZNodeElements(){
 
-    const{vtzTaskList, vtzGatewaysList}= useVTZStore();
+    const{vtzTaskList, vtzGatewaysList, vtzTaskRelations}= useVTZStore();
 
     const initialVtzNodesList=useMemo(()=>{
 
@@ -41,33 +41,70 @@ export default function useInitialVTZNodeElements(){
         }
         ,[vtzGatewaysList, vtzTaskList]);
 
-    const initialVtzEdgesList=useMemo<{id:string; source:string; target:string}[]>(()=>vtzGatewaysList.flatMap(({predecessorIds, id, successorIds}:any)=>{
+    const initialVtzEdgesList=useMemo<{id:string; source:string; target:string}[]>(()=> {
+        
+            // const vtzGatewaysEdgeList: any = vtzGatewaysList.flatMap(({predecessorIds, id, successorIds}: any) => {
+            //
+            //     const predecessorEdges = predecessorIds.map((predecessorId: any) => {
+            //         return {
+            //             id: `${id}_${predecessorId}`,
+            //             source: `${predecessorId}`,
+            //             target: `${id}`,
+            //             type: 'VtzEdge',
+            //             animated: true,
+            //         };
+            //     });
+            //
+            //     const successorEdges = successorIds.map((successorId: any) => {
+            //         return {
+            //             id: `${id}_${successorId}`,
+            //             source: `${id}`,
+            //             target: `${successorId}`,
+            //             type: 'VtzEdge',
+            //             animated: true,
+            //         };
+            //     });
+            //
+            //     return [...predecessorEdges, ...successorEdges]
+            //
+            // });
+            //
+            //
 
-        const predecessorEdges=predecessorIds.map((predecessorId:any)=>{
-            return {
-                id: `${id}_${predecessorId}`,
-                source: `${predecessorId}`,
-                target: `${id}`,
-                type: 'VtzEdge',
-                animated: true,
-            };
-        });
+            return vtzTaskRelations.flatMap(({id, predecessorTaskId, successorTaskId, gatewayId})=>{
+                
+               if(gatewayId!=null){
+                   return [
+                       {
+                        id: `${id}_${predecessorTaskId}_${gatewayId}`,
+                        source: `${predecessorTaskId}`,
+                        target: `${gatewayId}`,
+                        type: 'VtzEdge',
+                        animated: true,
+                       },
+    
+                       {
+                        id: `${id}_${gatewayId}_${successorTaskId}`,
+                        source: `${gatewayId}`,
+                        target: `${successorTaskId}`,
+                        type: 'VtzEdge',
+                        animated: true,
+                       },
+                   ];
+                   
+               }else{
+                   return [{
+                       id: `${id}_${predecessorTaskId}_${successorTaskId}`,
+                       source: `${predecessorTaskId}`,
+                       target: `${successorTaskId}`,
+                       type: 'VtzEdge',
+                       animated: true,
+                   }];
+               }
+            });
+        }
 
-        const successorEdges=successorIds.map((successorId:any)=>{
-            return {
-                id: `${id}_${successorId}`,
-                source: `${id}`,
-                target: `${successorId}`,
-                type:'VtzEdge',
-                animated: true,
-            };
-        });
-
-        return [...predecessorEdges, ...successorEdges]
-
-    })
-
-        ,[vtzGatewaysList]);
+        ,[vtzTaskRelations]);
 
 
     return {initialVtzNodesList, initialVtzEdgesList}

@@ -10,14 +10,15 @@ interface PageProps {
 }
 const Page=({children, className}:PageProps)=>{
 
-    const{loadVTZTasks, loadVTZGateways, loadVTZDocumentation, getAuthToken}= useVTZStore();
+    const{loadVTZTasks, loadVTZGateways, loadVTZDocumentation, getAuthToken, loadVTZTaskRelations}= useVTZStore();
     
     useEffect(()=>{
         loadVTZTasks();
         loadVTZGateways();
         getAuthToken();
         loadVTZDocumentation();
-    },[loadVTZTasks, loadVTZGateways, loadVTZDocumentation, getAuthToken]);
+        loadVTZTaskRelations();
+    },[loadVTZTasks, loadVTZGateways, loadVTZDocumentation, getAuthToken, loadVTZTaskRelations]);
 
     return(<div className={clsx(className, 'page')}>
         {children}

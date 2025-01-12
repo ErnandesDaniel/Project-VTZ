@@ -8,6 +8,8 @@ interface VTZStore {
     loadVTZTasks: any;
     loadVTZGateways: any;
     loadVTZDocumentation: any;
+    vtzTaskRelations:[]
+    loadVTZTaskRelations: any;
     authToken:string;
     deleteVTZ: any;
     getAuthToken:any;
@@ -20,6 +22,14 @@ export const useVTZStore = create<VTZStore>()((set, get) => ({
     filteredVTZ:[],
     setFilteredVTZ:(newValue:any[])=>{
         set({filteredVTZ:newValue})
+    },
+    vtzTaskRelations:[],
+    loadVTZTaskRelations: async ()=>{
+        const {vtzTaskRelations}=get();
+        if(vtzTaskRelations.length===0){
+            const response = await apiInstance.get(`/TaskRelation/GetAll`);
+            set({vtzTaskRelations: response.data?.value.$values});
+        }
     },
 
     loadVTZTasks: async ()=>{
