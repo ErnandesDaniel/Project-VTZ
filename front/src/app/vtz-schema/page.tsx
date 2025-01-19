@@ -78,7 +78,9 @@ export default function VtzSchema() {
                 })),
                 edges: layoutedGraph.edges,
             }))
-            .catch((e)=>console.log(e));
+            .catch((e)=>{
+                //console.log(e)
+            });
     },[]);
 
     const [layoutedNodes, setLayoutedNodes]=useState<any>([]);
@@ -92,10 +94,10 @@ export default function VtzSchema() {
             initialVtzEdgesList
         ).then((res)=>{
             if(res!=undefined){
-                console.log(res);
+                //console.log(res);
                 const{nodes, edges}=res;
-                console.log('nodes');
-                console.log(nodes);
+                //console.log('nodes');
+                //console.log(nodes);
                 setLayoutedNodes(nodes);
                 setLayoutedEdges(edges);
             }
