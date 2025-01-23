@@ -5,6 +5,7 @@ export default function useInitialVTZNodeElements(){
 
     const{vtzGatewaysList, vtzTaskRelations, filteredVTZ}= useVTZStore();
 
+    //Загруженный с бэка список ребер графа
     const initialVtzEdgesList:any=useMemo<{id:string; source:string; target:string}[]>(()=> {
 
         return vtzTaskRelations.flatMap(({id, predecessorTaskId, successorTaskId, gatewayId})=>{
@@ -39,6 +40,7 @@ export default function useInitialVTZNodeElements(){
         });
     } ,[vtzTaskRelations]);
 
+    //Загруженный с бэка отфильтрованный список вершин графа (ВТЗ и шлюзы)
     let initialVtzNodesList=useMemo(()=>{
 
         const VtzTaskNodesList:any= filteredVTZ.map(({
@@ -78,6 +80,7 @@ export default function useInitialVTZNodeElements(){
 
     } ,[filteredVTZ, vtzGatewaysList]);
 
+    //Список шлюзов
     const gatewayEdgesList=useMemo(()=>{
 
         return initialVtzNodesList.map((vtz) => {
@@ -120,6 +123,7 @@ export default function useInitialVTZNodeElements(){
         
     },[initialVtzNodesList, vtzTaskRelations]);
 
+    //Список отфильтрованных ребер ВТЗ
     let filteredVtzNodesList= useMemo(()=> initialVtzNodesList.map((vtz) => {
 
             if (!(vtz.type == 'VtzTaskNode' && vtz.data.isVisible == false)) {
