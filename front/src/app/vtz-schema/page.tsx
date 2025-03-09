@@ -29,7 +29,10 @@ export default function VtzSchema() {
 
     const {setSelectedEdgeId}=useVTZSchemaStore();
     const {initialVtzNodesList, initialVtzEdgesList}=useInitialVTZNodeElements();
-    
+
+    console.log('VtzSchema initialVtzNodesList', initialVtzNodesList);
+    console.log('VtzSchema initialVtzEdgesList', initialVtzEdgesList);
+
     useEffect(() => {
         const keyDownHandler = (event:any) => {
             if (event.key === 'Escape') {
@@ -79,7 +82,7 @@ export default function VtzSchema() {
                 edges: layoutedGraph.edges,
             }))
             .catch((e)=>{
-                //console.log(e)
+                console.log(e)
             });
     },[]);
 
@@ -89,12 +92,20 @@ export default function VtzSchema() {
 
     useEffect(()=>{
 
+        console.log('getLayoutedElements');
+        console.log('getLayoutedElements initialVtzNodesList', initialVtzNodesList);
+        console.log('getLayoutedElements initialVtzEdgesList', initialVtzEdgesList);
+
+
+
         getLayoutedElements(
             initialVtzNodesList,
             initialVtzEdgesList
         ).then((res)=>{
+
+            console.log('getLayoutedElements res', res);
+
             if(res!=undefined){
-                //console.log(res);
                 const{nodes, edges}=res;
                 //console.log('nodes');
                 //console.log(nodes);

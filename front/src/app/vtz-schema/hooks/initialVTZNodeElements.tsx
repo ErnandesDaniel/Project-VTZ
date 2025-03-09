@@ -1,5 +1,9 @@
 import { useVTZStore } from "@/store/store";
 import { useMemo } from "react";
+import {
+    filterAndRewireGraph, filterEdgesWithoutSelfLoops,
+    removeDuplicateEdges, unshowUnusedGatewayNodes,
+} from "@/app/vtz-schema/hooks/FilterGraph";
 
 export default function useInitialVTZNodeElements(){
 
@@ -43,6 +47,7 @@ export default function useInitialVTZNodeElements(){
     //Загруженный с бэка отфильтрованный список вершин графа (ВТЗ и шлюзы)
     let initialVtzNodesList=useMemo(()=>{
 
+        //Преобразуем список Node ВТЗ в удобный формат
         const VtzTaskNodesList:any= filteredVTZ.map(({
             key,
             VTZ_number,
@@ -68,109 +73,99 @@ export default function useInitialVTZNodeElements(){
             }
         );
 
-        const VtzGatewayNodesList= vtzGatewaysList.map(({id}, index)=>{
+        //Преобразуем список Node шлюзов в удобный формат
+        let VtzGatewayNodesList= vtzGatewaysList.map(({id}, index)=>{
             return{
                 id: `${id}`,
                 type: 'VtzGatewayNode',
-                position: { x: 0, y: 0 }
+                position: { x: 0, y: 0 },
+                data:{
+                    isVisible:true,
+                }
             } ;
         });
 
+        if(initialVtzEdgesList.length>0 && VtzGatewayNodesList.length>0){
+
+            //Преобразуем список edges в формат для расчета видимости шлюзов
+            const edges=initialVtzEdgesList.map(({source, target}:any)=>[source, target]);
+
+            console.log('VtzGatewayNodesList before check isVisible', VtzGatewayNodesList);
+
+            //Получаем преобразованный список шлюзов с учетом их видимости за счет сравнения связанности шлюза
+            //с Node ВТЗ
+            VtzGatewayNodesList=unshowUnusedGatewayNodes({nodes:[...VtzGatewayNodesList, ...VtzTaskNodesList], edges:edges});
+
+            VtzGatewayNodesList=VtzGatewayNodesList.filter((el)=>el.type=='VtzGatewayNode');
+
+            console.log('VtzGatewayNodesList after check isVisible', VtzGatewayNodesList);
+        }
+
         return [...VtzTaskNodesList, ...VtzGatewayNodesList];
 
-    } ,[filteredVTZ, vtzGatewaysList]);
+    } ,[filteredVTZ, vtzGatewaysList, initialVtzEdgesList]);
 
-    //Список шлюзов
-    const gatewayEdgesList=useMemo(()=>{
+    //Список отфильтрованных ВТЗ и шлюзов
+    let filteredVtzNodesList= useMemo(()=> initialVtzNodesList.map((node) => {
+            if ((node.data.isVisible == false)) {
+                return null;
+            } else {
+                return node;
+            }
+    }).filter((node) => node != null),[initialVtzNodesList]);
 
-        return initialVtzNodesList.map((vtz) => {
+    console.log('initialVtzNodesList', initialVtzNodesList);
+    console.log('filteredVtzNodesList', filteredVtzNodesList);
 
-            if (vtz.type == 'VtzTaskNode' && vtz.data.isVisible == false) {
+    //Список отфильтрованных связей
+    const filteredVtzEdgesList:any=useMemo(()=>{
 
-                //Находим первого предшественника Gateway
-                const relationWithFirstPredecessor = vtzTaskRelations.find(({predecessorTaskId}) => predecessorTaskId == vtz.id);
+        if(initialVtzNodesList.length>0 && initialVtzEdgesList.length>0){
 
-                //Находим первого последователя
-                const relationWithFirstSuccessor = vtzTaskRelations.find(({successorTaskId}) => successorTaskId == vtz.id);
+            const edgesToFilter=initialVtzEdgesList.map(({source, target}:any)=>[source, target]);
+            const nodesToFilter=initialVtzNodesList.map((el:any)=>({id:el?.id, isShow:el?.data?.isVisible}));
 
-                //Если существуют последователь и предшественник Gateway
-                if (relationWithFirstPredecessor != null && relationWithFirstSuccessor != null) {
+            //console.log('edgesToFilter', edgesToFilter);
+            //console.log('nodesToFilter', nodesToFilter);
 
-                    //Ищем в массиве связь между последователем и предшественником
+            const edgesToFilterWithoutDuplicates=removeDuplicateEdges(edgesToFilter);
+            console.log('edgesToFilterWithoutDuplicates', edgesToFilterWithoutDuplicates);
 
-                    //Если связь не находим, то создаем новую и добавляем в массив связей связь между gateways
+            let newEdges:any=filterAndRewireGraph({
+                edges: edgesToFilterWithoutDuplicates,
+                nodes: nodesToFilter
+            });
 
-                    const predecessorGatewayId = relationWithFirstPredecessor.gatewayId;
+            console.log('newEdges after filterAndRewireGraph and before removeDuplicateEdges', newEdges);
 
-                    const successorGatewayId = relationWithFirstSuccessor.gatewayId;
+            newEdges=removeDuplicateEdges(newEdges);
 
-                    if (predecessorGatewayId != null && successorGatewayId != null) {
-                        return {
-                            id: `${vtz.id}_${predecessorGatewayId}_${successorGatewayId}`,
-                            source: `${predecessorGatewayId}`,
-                            target: `${successorGatewayId}`,
-                            type: 'VtzEdge',
-                            animated: true,
-                        }
-                    }
+            console.log('newEdges after removeDuplicateEdges', newEdges);
+
+            return newEdges.map(([source, target]:any)=>{
+                return{
+                    id: `${source}_${target}`,
+                    source: source,
+                    target: target,
+                    type: 'VtzEdge',
+                    animated: true,
                 }
+            });
 
-                return null;
-            } else {
-                return null;
-            }
-        }).filter((edge) => edge != null)
-        
-    },[initialVtzNodesList, vtzTaskRelations]);
+            //return initialVtzEdgesList;
 
-    //Список отфильтрованных ребер ВТЗ
-    let filteredVtzNodesList= useMemo(()=> initialVtzNodesList.map((vtz) => {
-
-            if (!(vtz.type == 'VtzTaskNode' && vtz.data.isVisible == false)) {
-                return vtz;
-            } else {
-                return null;
-            }
-    }).filter((vtz) => vtz != null) ,[initialVtzNodesList]);
-
-    //Удаляем все связи, у которых нет ВТЗ на одном из концов
-    const filteredVtzEdgesList=useMemo(()=>initialVtzEdgesList.map((edge:any) => {
-
-        if(
-            filteredVtzNodesList.find((node)=>node.id==edge.source)!=null &&
-            filteredVtzNodesList.find((node)=>node.id==edge.target)!=null
-        ){
-            return edge;
-        }else{
-            return null;
         }
-    }).filter((edge:any) => edge != null),[initialVtzEdgesList, filteredVtzNodesList]);
 
-    //Удаляем Node шлюзы, что они связаны только с другими gateway
+        return initialVtzEdgesList;
 
-    // console.log('gatewayEdgesList', gatewayEdgesList);
-    // console.log('filteredVtzNodesList', filteredVtzNodesList);
-    // console.log('filteredVtzEdgesList', filteredVtzEdgesList);
-    // console.log('initialVtzNodesList', initialVtzNodesList);
-    // console.log('initialVtzEdgesList', initialVtzEdgesList);
+    },[initialVtzEdgesList, initialVtzNodesList]);
 
-    const {returnedVtzNodesList, returnedVtzEdgesList}=useMemo(()=>{
-        return{
-            returnedVtzNodesList:filteredVtzNodesList,
-            returnedVtzEdgesList:[...filteredVtzEdgesList,...gatewayEdgesList]
-        }
-    },[filteredVtzEdgesList, filteredVtzNodesList, gatewayEdgesList]);
+    console.log('initialVtzEdgesList', initialVtzEdgesList);
+    console.log('filteredVtzEdgesList', filteredVtzEdgesList);
 
     return {
-        initialVtzNodesList: returnedVtzNodesList,
+        initialVtzNodesList:filteredVtzNodesList,
 
-        initialVtzEdgesList: returnedVtzEdgesList
+        initialVtzEdgesList:filteredVtzEdgesList
     }
 }
-
-
-
-
-
-
-
