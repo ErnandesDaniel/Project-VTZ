@@ -27,15 +27,17 @@ export function unshowUnusedGatewayNodes({edges, nodes}:{edges: edge[], nodes: a
             const neighbors = adjacencyList.get(node.id) || new Set();
             for (const neighborId of neighbors) {
                 const neighborNode = nodeMap.get(neighborId);
-                if (neighborNode?.type === 'VtzTaskNode') {
+                if (neighborNode?.type === 'VtzTaskNode' && neighborNode?.data.isVisible) {
                     hasTaskNeighbor = true;
-                    break; // Если нашли хотя бы одного соседа-задачи, выходим
+                    break; // Если нашли хотя бы одного соседа-задачи, который видим, то выходим
                 }
             }
 
             // Если нет связей с VtzTaskNode — скрываем узел
             if (!hasTaskNeighbor) {
                 node.data.isVisible = false;
+            }else{
+                node.data.isVisible = true;
             }
         }
     });

@@ -45,7 +45,7 @@ export default function useInitialVTZNodeElements(){
     } ,[vtzTaskRelations]);
 
     //Загруженный с бэка отфильтрованный список вершин графа (ВТЗ и шлюзы)
-    let initialVtzNodesList=useMemo(()=>{
+    const initialVtzNodesList=useMemo(()=>{
 
         //Преобразуем список Node ВТЗ в удобный формат
         const VtzTaskNodesList:any= filteredVTZ.map(({
@@ -106,7 +106,7 @@ export default function useInitialVTZNodeElements(){
     } ,[filteredVTZ, vtzGatewaysList, initialVtzEdgesList]);
 
     //Список отфильтрованных ВТЗ и шлюзов
-    let filteredVtzNodesList= useMemo(()=> initialVtzNodesList.map((node) => {
+    const filteredVtzNodesList= useMemo(()=> initialVtzNodesList.map((node) => {
             if ((node.data.isVisible == false)) {
                 return null;
             } else {
@@ -152,8 +152,6 @@ export default function useInitialVTZNodeElements(){
                 }
             });
 
-            //return initialVtzEdgesList;
-
         }
 
         return initialVtzEdgesList;
@@ -163,9 +161,22 @@ export default function useInitialVTZNodeElements(){
     console.log('initialVtzEdgesList', initialVtzEdgesList);
     console.log('filteredVtzEdgesList', filteredVtzEdgesList);
 
-    return {
-        initialVtzNodesList:filteredVtzNodesList,
+    const clearFilteredVtzEdgesList=useMemo(()=>filteredVtzEdgesList.filter(({source, target}:any)=>{
+        const sourceNode= filteredVtzNodesList.find(({id})=>id === source);
+        const targetNode=filteredVtzNodesList.find(({id})=>id === target);
+        return !!sourceNode && !!targetNode;
+    }),[filteredVtzEdgesList]);
 
-        initialVtzEdgesList:filteredVtzEdgesList
+    const {returnedVtzEdgesList, returnedVtzNodesList}=useMemo(()=>{
+        return{
+            returnedVtzEdgesList:clearFilteredVtzEdgesList,
+            returnedVtzNodesList:filteredVtzNodesList
+        }
+
+    },[clearFilteredVtzEdgesList, filteredVtzNodesList]);
+
+    return {
+        initialVtzNodesList:returnedVtzNodesList,
+        initialVtzEdgesList:returnedVtzEdgesList
     }
 }
