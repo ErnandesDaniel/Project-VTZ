@@ -165,7 +165,7 @@ export default function useInitialVTZNodeElements(){
         const sourceNode= filteredVtzNodesList.find(({id})=>id === source);
         const targetNode=filteredVtzNodesList.find(({id})=>id === target);
         return !!sourceNode && !!targetNode;
-    }),[filteredVtzEdgesList]);
+    }),[filteredVtzEdgesList, filteredVtzNodesList]);
 
     const {returnedVtzEdgesList, returnedVtzNodesList}=useMemo(()=>{
         return{
