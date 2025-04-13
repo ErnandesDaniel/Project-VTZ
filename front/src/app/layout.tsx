@@ -8,6 +8,11 @@ import SideFilters from "@/components/SideFilters/SideFilters";
 export const metadata: Metadata = {
   title: "Проект ВТЗ",
 };
+import Script from 'next/script'
+import GoWebAssemblyProvider from "@/utils/GoWebAssemblyProvider";
+
+
+
 
 export default function RootLayout({ children }: React.PropsWithChildren){
 
@@ -17,7 +22,9 @@ export default function RootLayout({ children }: React.PropsWithChildren){
     <Flex className='app'>
       <SideFilters />
       <div className='app_content'>
+        <GoWebAssemblyProvider>
         <AntdRegistry>{children}</AntdRegistry>
+        </GoWebAssemblyProvider>
       </div>
       </Flex>
     </body>

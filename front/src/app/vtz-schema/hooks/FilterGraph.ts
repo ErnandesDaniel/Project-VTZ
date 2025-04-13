@@ -45,7 +45,7 @@ export function unshowUnusedGatewayNodes({edges, nodes}:{edges: edge[], nodes: a
     return nodes;
 }
 
-export function filterAndRewireGraph({edges, nodes}:{ edges: edge[], nodes: node[]}): edge[] {
+export function filterAndRewireGraphJS(edges: edge[], nodes: node[]): edge[] {
 
     // 1. Создаем структуру графа для быстрого доступа к соседям <button class="citation-flag" data-index="4">
     const adjacencyList: { [key: string]: string[] } = {};

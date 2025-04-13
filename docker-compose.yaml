@@ -59,13 +59,13 @@ services:
       db:
         condition: service_healthy
 
-  front:
-    build: ./front
-    container_name: front
-    ports:
-      - ${FRONT_APP_PORT}:3000
-    networks:
-      - vtz-network
+#  front:
+#    build: ./front
+#    container_name: front
+#    ports:
+#      - ${FRONT_APP_PORT}:3000
+#    networks:
+#      - vtz-network
 
 networks:
   vtz-network:

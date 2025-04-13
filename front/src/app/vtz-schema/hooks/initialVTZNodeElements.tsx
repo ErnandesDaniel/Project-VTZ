@@ -1,9 +1,10 @@
 import { useVTZStore } from "@/store/store";
-import { useMemo } from "react";
+import {useCallback, useEffect, useMemo, useState} from "react";
 import {
-    filterAndRewireGraph, filterEdgesWithoutSelfLoops,
+    filterAndRewireGraphJS,
     removeDuplicateEdges, unshowUnusedGatewayNodes,
 } from "@/app/vtz-schema/hooks/FilterGraph";
+import {isNil} from "lodash-es";
 
 export default function useInitialVTZNodeElements(){
 
@@ -129,12 +130,19 @@ export default function useInitialVTZNodeElements(){
             //console.log('nodesToFilter', nodesToFilter);
 
             const edgesToFilterWithoutDuplicates=removeDuplicateEdges(edgesToFilter);
+
             console.log('edgesToFilterWithoutDuplicates', edgesToFilterWithoutDuplicates);
 
-            let newEdges:any=filterAndRewireGraph({
-                edges: edgesToFilterWithoutDuplicates,
-                nodes: nodesToFilter
-            });
+            let newEdges:any=[];
+
+            if(isNil(globalThis.filterAndRewireGraph)){
+                newEdges=filterAndRewireGraphJS(edgesToFilterWithoutDuplicates,nodesToFilter);
+            }else{
+                //newEdges=filterAndRewireGraphJS(edgesToFilterWithoutDuplicates,nodesToFilter);
+                console.log('Запуск функции на Go');
+                newEdges=JSON.parse(globalThis.filterAndRewireGraph(JSON.stringify(edgesToFilterWithoutDuplicates), JSON.stringify(nodesToFilter)));
+                console.log('newEdges after filterAndRewireGraph on Go-precessing');
+            }
 
             console.log('newEdges after filterAndRewireGraph and before removeDuplicateEdges', newEdges);
 
@@ -151,7 +159,6 @@ export default function useInitialVTZNodeElements(){
                     animated: true,
                 }
             });
-
         }
 
         return initialVtzEdgesList;

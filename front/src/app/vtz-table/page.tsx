@@ -52,7 +52,7 @@ const VTZTable = () => {
     },[deleteVTZ, filteredData])
 
     const onChangeActiveTab = useCallback(
-        (activeTabKey: number) => {
+        (activeTabKey: string) => {
             const activeTab = tabs.find(({ key }) => key == String(activeTabKey));
             setActiveTabName(`${activeTab?.key}`);
         },
