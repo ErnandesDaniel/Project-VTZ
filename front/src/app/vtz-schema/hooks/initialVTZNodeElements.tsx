@@ -137,11 +137,14 @@ export default function useInitialVTZNodeElements(){
 
             if(isNil(globalThis.filterAndRewireGraph)){
                 newEdges=filterAndRewireGraphJS(edgesToFilterWithoutDuplicates,nodesToFilter);
+                console.log('newEdges after filterAndRewireGraph on JS-processing', newEdges);
             }else{
-                //newEdges=filterAndRewireGraphJS(edgesToFilterWithoutDuplicates,nodesToFilter);
+                const testJSEdges=filterAndRewireGraphJS(edgesToFilterWithoutDuplicates,nodesToFilter);
+                console.log('testJSEdges after filterAndRewireGraph on JS-processing', testJSEdges);
+
                 console.log('Запуск функции на Go');
                 newEdges=JSON.parse(globalThis.filterAndRewireGraph(JSON.stringify(edgesToFilterWithoutDuplicates), JSON.stringify(nodesToFilter)));
-                console.log('newEdges after filterAndRewireGraph on Go-precessing');
+                console.log('newEdges after filterAndRewireGraph on Go-processing', newEdges);
             }
 
             console.log('newEdges after filterAndRewireGraph and before removeDuplicateEdges', newEdges);
